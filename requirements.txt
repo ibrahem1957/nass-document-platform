@@ -1,0 +1,10 @@
+# Shared Python 3.12 environment for Studio + Nass + DocPrep (one virtual environment at the repository root).
+# Studio's runtime is standard-library only; Nass and DocPrep need the packages below.
+# PP-DocLayout (scanned-page layout detection) is a separate, optional step: see README "Install" step 3.
+
+# Nass (lab/requirements-lab.txt: Streamlit lab, PDF text-layer libraries, test tooling)
+-r nass/lab/requirements-lab.txt
+# Nass Qari HTTP client (lab/core/auto/qari_client.py); not listed in lab/requirements-lab.txt
+httpx==0.28.1
+# DocPrep (PyMuPDF is shared with Nass; jsonschema validates every prepared_document.json)
+-r docprep/requirements.txt

@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source": "fixture",
+  "pages": [
+    {
+      "page": 1,
+      "text": "صورة PNG اصطناعية — Synthetic image",
+      "status": "verified"
+    }
+  ]
+}

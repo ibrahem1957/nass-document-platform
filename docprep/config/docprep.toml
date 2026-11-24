@@ -1,0 +1,123 @@
+# Document Structure Builder configuration. Every value is optional; omitted keys use the code defaults.
+# Precedence: code defaults < this file (or --config) < DOCPREP_OUTPUT_ROOT < command-line options.
+
+[thresholds]
+promote = 0.45          # promote a candidate to heading at or above this score
+high = 0.70             # detection confidence "high"
+medium = 0.55           # detection confidence "medium" (below: "low")
+reject_floor = 0.25     # rejected candidates below this are listed as weak
+ambiguity_band = 0.08   # |score - promote| below this marks the decision ambiguous
+
+[weights]
+nass_heading_type = 0.30
+size_large = 0.35
+size_medium = 0.25
+size_smaller_than_body = -0.15
+bold = 0.25
+distinct_color = 0.10
+mixed_sizes = -0.05
+layout_doc_title = 0.35
+layout_paragraph_title = 0.25
+layout_body_text = -0.05
+layout_header_top = 0.05
+numbering = 0.20
+multilevel_numbering = 0.05
+ordinal = 0.20
+colon_short = 0.15
+no_terminal_punctuation = 0.05
+terminal_period = -0.10
+short_standalone = 0.10
+bullet_prefixed = -0.10
+span_heading_hint = 0.10
+title_echo = 0.15
+gap_before = 0.05
+followed_by_body = 0.05
+followed_by_same_style_candidate = -0.05
+centered = 0.05
+first_on_first_page = 0.10
+style_consistency = 0.10
+semantic_max = 0.10
+semantic_min = -0.05
+fake_bold = 0.05                    # low weight: supporting evidence only
+numbered_list_sequence = -0.10
+
+[typography]
+enabled = true
+size_ratio_large = 1.40
+size_ratio_medium = 1.15
+size_ratio_small = 0.90
+bold_share = 0.80
+size_tolerance = 0.25
+size_class_tolerance = 0.5
+distinct_size_gap = 1.0
+color_distance = 60
+bbox_tolerance = 2.0
+min_span_overlap = 0.5
+min_char_match = 0.80
+min_element_coverage = 0.60
+min_consistency = 0.70
+
+[layout]
+enabled = true
+min_score = 0.50
+min_overlap = 0.50
+ambiguity_delta = 0.15
+
+[patterns]
+max_heading_words = 20
+max_heading_chars = 200
+short_words = 10
+colon_heading_max_words = 10
+max_heading_lines = 3
+fragment_max_chars = 2
+list_intro_min_words = 5
+list_intro_heading_factor = 1.5
+
+[lists]
+trailing_marker_max_words = 12
+continuation_max_words = 8
+continuation_max_gap_lines = 1.0
+continuation_min_x_overlap = 0.3
+
+[aside]
+enabled = true
+max_width_share = 0.60
+body_min_words = 12
+min_vertical_overlap = 0.30
+min_horizontal_gap = 4.0
+multicolumn_min_units = 3
+
+[furniture]
+top_band = 0.10
+bottom_band = 0.92
+min_repeat_pages = 2
+min_repeat_share = 0.30
+
+[segmentation]
+enabled = true
+element_types = ["page_text"]
+sources = ["qari_full_page"]
+colon_label_max_words = 8
+title_echo_min_words = 3
+title_echo_max_words = 12
+
+[semantic]
+enabled = true
+verifier = "heuristic"   # "heuristic" or "none"
+lookahead_units = 2
+assignment_warnings = true
+assignment_min_shared_terms = 2
+common_term_section_share = 0.30   # document-wide terms (in >= 30% of sections) are ignored by the check
+min_sections_for_df = 3
+min_heading_terms = 2              # generic headings (fewer meaningful words) are not compared
+skip_when_next_heading_uncertain = true
+
+[hierarchy]
+max_levels = 4
+detect_document_title = true
+title_search_units = 3
+numbered_run_indent_tolerance = 6.0   # pt: parallel numbered runs must start at the same indent
+
+[output]
+root = 'D:\agenticdoc_e2\results\document_structure'
+read_only_files = true

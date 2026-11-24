@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "manifest_id": "agenticdoc-e2-airgap-2026-11-17",
+  "generated_at": "2026-11-17T00:00:00+03:00",
+  "policy": {
+    "no_automatic_downloads": true,
+    "no_floating_revisions": true,
+    "no_overwrite_results": true,
+    "ready_requires_isolated_inference": true,
+    "unknown_values": "UNVERIFIED or MISSING; never inferred"
+  },
+  "status_definitions": {
+    "NOT_DOWNLOADED": "One or more required artifacts are absent.",
+    "DOWNLOADED": "Required files exist but hashes are incomplete.",
+    "HASH_VERIFIED": "Required artifacts match exact sizes and SHA-256 values.",
+    "DEPENDENCIES_VERIFIED": "Artifacts and the exact runtime dependency set are verified.",
+    "OFFLINE_TESTED": "Real inference completed with outbound networking isolated.",
+    "READY_FOR_AIRGAP": "All artifacts, dependencies, target compatibility, and isolated inference are verified.",
+    "BLOCKED": "A mismatch, unsupported target, or missing identity prevents deployment."
+  },
+  "runtime_profiles": {
+    "windows-transformers-2026-11-17": {
+      "profile_id": "windows-transformers-2026-11-17",
+      "python": "3.12.10",
+      "lockfile": "lab/config/airgap/windows-e2-transformers-requirements.lock",
+      "additional_lockfiles": ["lab/config/airgap/windows-e2-ui-requirements.lock"],
+      "lock_complete": true,
+      "runtime_import_probe": ["numpy", "numpy.random", "numpy.fft", "numpy.linalg", "PIL.Image", "safetensors", "tokenizers", "torch", "torch._dynamo", "transformers"],
+      "packages": {"torch": "2.15.0+cpu", "transformers": "5.23.0", "tokenizers": "0.23.3", "safetensors": "0.8.0", "pillow": "12.0.0", "huggingface-hub": "2.4.0"},
+      "native_dependencies": ["Microsoft Visual C++ runtime: UNVERIFIED"],
+      "wheelhouse": {"path": "MISSING", "hash_manifest": "MISSING", "status": "NOT_DOWNLOADED"},
+      "container": {"image": "MISSING", "digest": "MISSING", "status": "NOT_DOWNLOADED"}
+    },
+    "windows-paddle-full-page-2026-11-17": {
+      "profile_id": "windows-paddle-full-page-2026-11-17",
+      "python": "3.12.10",
+      "lockfile": "lab/config/airgap/windows-paddle-full-page-requirements.lock",
+      "lock_complete": true,
+      "environment": "D:/agenticdoc_e2/venv-paddleocr-vl-fullpage",
+      "packages": {"torch": "2.15.0+cpu", "transformers": "5.23.0", "tokenizers": "0.23.3", "safetensors": "0.8.0", "numpy": "2.3.5", "PyYAML": "6.0.2", "paddleocr": "3.7.0", "paddlex": "3.7.2", "scikit-learn": "1.9.1", "streamlit": "1.67.0"},
+      "dependency_inventory": "lab/config/airgap/fullpage_dependency_inventory.json",
+      "native_binary_inventory": "lab/config/airgap/it_native_binaries_fullpage.csv",
+      "native_dependencies": ["PaddlePaddle runtime: not required by the transformers engine per package metadata; unverified until a page runs", "Microsoft Visual C++ runtime: UNVERIFIED", "BLOCKED 2026-11-17: Windows Smart App Control (policy {0283ac0f-fff1-49ae-ada1-8a933130cad6}) blocked unsigned sklearn/cluster/_k_means_lloyd and sklearn/_isotonic (scikit-learn 1.9.1) and ujson; paddlex import fails, so the official pipeline cannot run on this host"],
+      "runtime_status": "BLOCKED_BY_APPLICATION_CONTROL",
+      "runtime_import_probe": ["numpy", "numpy.random", "numpy.fft", "numpy.linalg", "PIL.Image", "cv2", "sklearn.cluster", "torch", "torch._dynamo", "transformers", "paddlex", "paddleocr"],
+      "wheelhouse": {"path": "MISSING", "hash_manifest": "lab/config/airgap/windows-paddle-full-page-requirements.lock (127 wheel SHA-256)", "status": "NOT_DOWNLOADED"},
+      "container": {"image": "MISSING", "digest": "MISSING", "status": "NOT_DOWNLOADED"}
+    },
+    "windows-qari-2026-11-17": {
+      "profile_id": "windows-qari-2026-11-17",
+      "python": "3.12.10",
+      "lockfile": "lab/config/airgap/windows-qari-requirements.lock",
+      "lock_complete": false,
+      "packages": {"torch": "2.15.0+cpu", "transformers": "5.23.0", "tokenizers": "0.23.3", "safetensors": "0.8.0", "peft": "UNVERIFIED"},
+      "native_dependencies": ["Microsoft Visual C++ runtime: UNVERIFIED"],
+      "wheelhouse": {"path": "MISSING", "hash_manifest": "MISSING", "status": "NOT_DOWNLOADED"},
+      "container": {"image": "MISSING", "digest": "MISSING", "status": "NOT_DOWNLOADED"}
+    },
+    "ollama-local-unverified": {
+      "profile_id": "ollama-local-unverified",
+      "python": "UNVERIFIED",
+      "lockfile": "MISSING",
+      "lock_complete": false,
+      "packages": {},
+      "native_dependencies": ["Ollama executable version: UNVERIFIED", "GGUF runtime/build identity: UNVERIFIED"],
+      "wheelhouse": {"path": "NOT_APPLICABLE", "hash_manifest": "NOT_APPLICABLE", "status": "BLOCKED"},
+      "container": {"image": "MISSING", "digest": "MISSING", "status": "NOT_DOWNLOADED"}
+    }
+  },
+  "components": [
+    {
+      "component_id": "paddleocr-vl-1.6@132c45f5",
+      "name": "PaddleOCR-VL 1.6 recognition model",
+      "repo_id": "PaddlePaddle/PaddleOCR-VL-1.6",
+      "revision": "132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd",
+      "source_repository": "https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6",
+      "architecture": "PaddleOCR-VLForConditionalGeneration, 0.9B document VLM",
+      "config_processor_tokenizer": {"config": "config.json", "processor": ["preprocessor_config.json", "processor_config.json", "processing_paddleocr_vl.py", "image_processing_paddleocr_vl.py"], "tokenizer": ["tokenizer.json", "tokenizer.model", "tokenizer_config.json", "special_tokens_map.json", "added_tokens.json"]},
+      "license": {"spdx": "Apache-2.0", "file": "LICENSE", "status": "VERIFIED_AT_REVISION"},
+      "local_root": "D:/agenticdoc_e2/hf/hub/models--PaddlePaddle--PaddleOCR-VL-1.6/snapshots/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd",
+      "cluster_root": "/opt/agenticdoc/models/huggingface/PaddlePaddle--PaddleOCR-VL-1.6/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd",
+      "declared_status": "HASH_VERIFIED",
+      "artifacts": [
+        {"filename":"model.safetensors","role":"weights","required":true,"size_bytes":1917255968,"sha256":"85a479d506a11e724e7285d395c551be69f41dbc16b6342d3cacfb189aed71db","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/model.safetensors","local_relative_path":"model.safetensors","cluster_relative_path":"model.safetensors","status":"HASH_VERIFIED"},
+        {"filename":"config.json","role":"config","required":true,"size_bytes":2059,"sha256":"ce7f4565f8b1db78532ad5d1b9ebe55c2139d49bd4cb04778b580a08a598f171","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/config.json","local_relative_path":"config.json","cluster_relative_path":"config.json","status":"HASH_VERIFIED"},
+        {"filename":"generation_config.json","role":"generation_config","required":true,"size_bytes":133,"sha256":"a6701d78ab3b4d972307cdec3b69d4c13f46e0d5140514f50ab7d84259324b94","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/generation_config.json","local_relative_path":"generation_config.json","cluster_relative_path":"generation_config.json","status":"HASH_VERIFIED"},
+        {"filename":"preprocessor_config.json","role":"processor","required":true,"size_bytes":641,"sha256":"111872ab1e8bb7fd040ac5087bfced7ab8f011f02139b088cba294964c3b1d0e","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/preprocessor_config.json","local_relative_path":"preprocessor_config.json","cluster_relative_path":"preprocessor_config.json","status":"HASH_VERIFIED"},
+        {"filename":"processor_config.json","role":"processor","required":true,"size_bytes":137,"sha256":"1568858960a9760c54431dae693a6152e601ff55cdf6d2eab97a4a99958faea0","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/processor_config.json","local_relative_path":"processor_config.json","cluster_relative_path":"processor_config.json","status":"HASH_VERIFIED"},
+        {"filename":"tokenizer.json","role":"tokenizer","required":true,"size_bytes":11189060,"sha256":"c8a215a59183d0d0781adc33bacd3ce6162716f7fd568fb30234a74d69803a7d","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/tokenizer.json","local_relative_path":"tokenizer.json","cluster_relative_path":"tokenizer.json","status":"HASH_VERIFIED"},
+        {"filename":"tokenizer.model","role":"tokenizer","required":true,"size_bytes":1614363,"sha256":"34ef7db83df785924fb83d7b887b6e822a031c56e15cff40aaf9b982988180df","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/tokenizer.model","local_relative_path":"tokenizer.model","cluster_relative_path":"tokenizer.model","status":"HASH_VERIFIED"},
+        {"filename":"tokenizer_config.json","role":"tokenizer","required":true,"size_bytes":186947,"sha256":"1f979337347cc0cb72a6282d8a23ed183539aa81a87a906f022aee2bab83c7c5","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/tokenizer_config.json","local_relative_path":"tokenizer_config.json","cluster_relative_path":"tokenizer_config.json","status":"HASH_VERIFIED"},
+        {"filename":"special_tokens_map.json","role":"tokenizer","required":true,"size_bytes":1151,"sha256":"d3a125c03103deb2acaf7730791bdbbf196f620e5a2213b664511ff9b4b25bab","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/special_tokens_map.json","local_relative_path":"special_tokens_map.json","cluster_relative_path":"special_tokens_map.json","status":"HASH_VERIFIED"},
+        {"filename":"added_tokens.json","role":"tokenizer","required":true,"size_bytes":25381,"sha256":"f59f889088e0fe21c523e7cf121bb6dca3b0bb148cb7159fbb4572c74dfc5644","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/added_tokens.json","local_relative_path":"added_tokens.json","cluster_relative_path":"added_tokens.json","status":"HASH_VERIFIED"},
+        {"filename":"processing_paddleocr_vl.py","role":"processor_code","required":true,"size_bytes":12253,"sha256":"e29cb1e5f275f2bd3ce051bd5c9983a33894e693b2823a0e13d4c07c8c4f9e13","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/processing_paddleocr_vl.py","local_relative_path":"processing_paddleocr_vl.py","cluster_relative_path":"processing_paddleocr_vl.py","status":"HASH_VERIFIED"},
+        {"filename":"image_processing_paddleocr_vl.py","role":"processor_code","required":true,"size_bytes":25032,"sha256":"a4fa521b9cb16e207f94b7f2d16427771776dfc634420d319fc4916ee58049ec","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/image_processing_paddleocr_vl.py","local_relative_path":"image_processing_paddleocr_vl.py","cluster_relative_path":"image_processing_paddleocr_vl.py","status":"HASH_VERIFIED"},
+        {"filename":"chat_template.jinja","role":"chat_template","required":true,"size_bytes":1474,"sha256":"2f27812dab7f333e471884e0c803d807f11953d5453140dfb1aaba234f872bc8","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/chat_template.jinja","local_relative_path":"chat_template.jinja","cluster_relative_path":"chat_template.jinja","status":"HASH_VERIFIED"},
+        {"filename":"configuration_paddleocr_vl.py","role":"reference_model_code","required":false,"size_bytes":8104,"sha256":"753dd93654c3a9c8c85a3eaee1e3092dd12591b0f2dce0305e1abfb7a41ff160","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/configuration_paddleocr_vl.py","local_relative_path":"configuration_paddleocr_vl.py","cluster_relative_path":"configuration_paddleocr_vl.py","status":"HASH_VERIFIED"},
+        {"filename":"modeling_paddleocr_vl.py","role":"reference_model_code","required":false,"size_bytes":110957,"sha256":"4b2f0c894be95b48fa6dcf18745b8307efe1290725a258f65c6c8b503b69c060","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/modeling_paddleocr_vl.py","local_relative_path":"modeling_paddleocr_vl.py","cluster_relative_path":"modeling_paddleocr_vl.py","status":"HASH_VERIFIED"},
+        {"filename":"inference.yml","role":"reference_config","required":false,"size_bytes":43,"sha256":"1587aece2d6442366efce34161d5f7d5f67f09ebfbf043168e5fade892c2780e","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/inference.yml","local_relative_path":"inference.yml","cluster_relative_path":"inference.yml","status":"HASH_VERIFIED"},
+        {"filename":"LICENSE","role":"license","required":false,"size_bytes":11376,"sha256":"b8c4d7deccd236af023af1c88c4d4e8f0fc2f41914e0fb23a3ec9678fb5a8456","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/LICENSE","local_relative_path":"LICENSE","cluster_relative_path":"LICENSE","status":"HASH_VERIFIED"},
+        {"filename":"README.md","role":"model_card","required":false,"size_bytes":21424,"sha256":"d6c5b77a660577f6e18021defccd835bdc93a8c6538f5a479d597f3e94288abf","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/README.md","local_relative_path":"README.md","cluster_relative_path":"README.md","status":"HASH_VERIFIED"},
+        {"filename":".gitattributes","role":"repository_metadata","required":false,"size_bytes":1570,"sha256":"34448b82c17d60fec9b65b1f093c115ddbaadc04beb1b0140b6bfed2e012a930","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/.gitattributes","local_relative_path":".gitattributes","cluster_relative_path":".gitattributes","status":"HASH_VERIFIED"},
+        {"filename":".eval_results/real5_omnidocbench.yaml","role":"evaluation_metadata","required":false,"size_bytes":1418,"sha256":"99219214a2793f849b55dc875a356917b8fc6d178455467e5a98e71a00689cf5","checksum_status":"HASH_VERIFIED","source_url":"https://huggingface.co/PaddlePaddle/PaddleOCR-VL-1.6/resolve/132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd/.eval_results/real5_omnidocbench.yaml","local_relative_path":".eval_results/real5_omnidocbench.yaml","cluster_relative_path":".eval_results/real5_omnidocbench.yaml","status":"HASH_VERIFIED"}
+      ]
+    },
+    {
+      "component_id": "pp-doclayoutv3@e4f489dc",
+      "name": "PP-DocLayoutV3 safetensors layout detector",
+      "repo_id": "PaddlePaddle/PP-DocLayoutV3_safetensors",
+      "revision": "e4f489dc536556fc1be02b973ba06756e0d4a2ac",
+      "source_repository": "https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors",
+      "architecture": "RT-DETR layout detector",
+      "config_processor_tokenizer": {"config":"config.json","processor":["preprocessor_config.json"],"tokenizer":[]},
+      "license": {"spdx":"Apache-2.0","status":"VERIFIED_FROM_REPOSITORY_METADATA"},
+      "local_root": "D:/agenticdoc_e2/hf/hub/models--PaddlePaddle--PP-DocLayoutV3_safetensors/snapshots/e4f489dc536556fc1be02b973ba06756e0d4a2ac",
+      "cluster_root": "/opt/agenticdoc/models/huggingface/PaddlePaddle--PP-DocLayoutV3_safetensors/e4f489dc536556fc1be02b973ba06756e0d4a2ac",
+      "declared_status": "HASH_VERIFIED",
+      "artifacts": [
+        {"filename":"model.safetensors","role":"layout_weights","required":true,"size_bytes":133270468,"sha256":"5ea422c6cc5fe759a47e1357c35639b58173508e025a3131cbe4b6ac59e2b85e","checksum_status":"HASH_VERIFIED_LFS_SHA256_2026-11-17","source_url":"https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors/resolve/e4f489dc536556fc1be02b973ba06756e0d4a2ac/model.safetensors","local_relative_path":"model.safetensors","cluster_relative_path":"model.safetensors","status":"HASH_VERIFIED"},
+        {"filename":"config.json","role":"layout_config","required":true,"size_bytes":2460,"sha256":"3cf834b91d23a756b1519bce4db42c09e852f3e35c35092dd5a3e253a50c071a","checksum_status":"HASH_VERIFIED_GIT_BLOB_5a22928c_2026-11-17","source_url":"https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors/resolve/e4f489dc536556fc1be02b973ba06756e0d4a2ac/config.json","local_relative_path":"config.json","cluster_relative_path":"config.json","status":"HASH_VERIFIED"},
+        {"filename":"preprocessor_config.json","role":"layout_processor","required":true,"size_bytes":575,"sha256":"519fe0187a43a1ca429e3ad8317bab8700f0d5e8fb3a6e3a0a413ffac078ba42","checksum_status":"HASH_VERIFIED_GIT_BLOB_ab667976_2026-11-17","source_url":"https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors/resolve/e4f489dc536556fc1be02b973ba06756e0d4a2ac/preprocessor_config.json","local_relative_path":"preprocessor_config.json","cluster_relative_path":"preprocessor_config.json","status":"HASH_VERIFIED"},
+        {"filename":"inference.yml","role":"layout_config","required":true,"size_bytes":1482,"sha256":"506fcfac13b3b546ae40d7886b44126420f392adb694e3f8bb6a6286a1f90fdc","checksum_status":"HASH_VERIFIED_GIT_BLOB_ed747240_2026-11-17","source_url":"https://huggingface.co/PaddlePaddle/PP-DocLayoutV3_safetensors/resolve/e4f489dc536556fc1be02b973ba06756e0d4a2ac/inference.yml","local_relative_path":"inference.yml","cluster_relative_path":"inference.yml","status":"HASH_VERIFIED"}
+      ]
+    },
+    {
+      "component_id": "qwen3-vl-4b@ebb281ec",
+      "name": "Qwen3-VL-4B-Instruct BF16 base",
+      "repo_id": "Qwen/Qwen3-VL-4B-Instruct",
+      "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+      "source_repository": "https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct",
+      "architecture": "Qwen3VLForConditionalGeneration, BF16 sharded safetensors",
+      "config_processor_tokenizer": {"config":"config.json","processor":["preprocessor_config.json","video_preprocessor_config.json"],"tokenizer":["tokenizer.json","tokenizer_config.json","merges.txt","vocab.json"]},
+      "license": {"spdx":"Apache-2.0","status":"VERIFIED_FROM_REPOSITORY_METADATA"},
+      "local_root": "D:/agenticdoc_e2/hf/hub/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+      "cluster_root": "/opt/agenticdoc/models/huggingface/Qwen--Qwen3-VL-4B-Instruct/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+      "declared_status": "NOT_DOWNLOADED",
+      "artifacts": [
+        {"filename":"model-00001-of-00002.safetensors","role":"weights","required":true,"size_bytes":4967229296,"sha256":"30a01a0556622645a3cce87b655bbbbbc1f170c196099f1b666c93202c3339a9","checksum_status":"SOURCE_LFS_SHA256","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/model-00001-of-00002.safetensors","local_relative_path":"model-00001-of-00002.safetensors","cluster_relative_path":"model-00001-of-00002.safetensors","status":"NOT_DOWNLOADED"},
+        {"filename":"model-00002-of-00002.safetensors","role":"weights","required":true,"size_bytes":3908490048,"sha256":"046296a2a387efb43b0c997d5833c789604d168834f6e0d3064bf7bb13d002a6","checksum_status":"SOURCE_LFS_SHA256","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/model-00002-of-00002.safetensors","local_relative_path":"model-00002-of-00002.safetensors","cluster_relative_path":"model-00002-of-00002.safetensors","status":"NOT_DOWNLOADED"},
+        {"filename":"model.safetensors.index.json","role":"weights_index","required":true,"size_bytes":64742,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/model.safetensors.index.json","local_relative_path":"model.safetensors.index.json","cluster_relative_path":"model.safetensors.index.json","status":"NOT_DOWNLOADED"},
+        {"filename":"config.json","role":"config","required":true,"size_bytes":1505,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/config.json","local_relative_path":"config.json","cluster_relative_path":"config.json","status":"NOT_DOWNLOADED"},
+        {"filename":"preprocessor_config.json","role":"processor","required":true,"size_bytes":390,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/preprocessor_config.json","local_relative_path":"preprocessor_config.json","cluster_relative_path":"preprocessor_config.json","status":"NOT_DOWNLOADED"},
+        {"filename":"tokenizer.json","role":"tokenizer","required":true,"size_bytes":7032403,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/tokenizer.json","local_relative_path":"tokenizer.json","cluster_relative_path":"tokenizer.json","status":"NOT_DOWNLOADED"},
+        {"filename":"tokenizer_config.json","role":"tokenizer","required":true,"size_bytes":10868,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/tokenizer_config.json","local_relative_path":"tokenizer_config.json","cluster_relative_path":"tokenizer_config.json","status":"NOT_DOWNLOADED"},
+        {"filename":"merges.txt","role":"tokenizer","required":true,"size_bytes":1671839,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/merges.txt","local_relative_path":"merges.txt","cluster_relative_path":"merges.txt","status":"NOT_DOWNLOADED"},
+        {"filename":"vocab.json","role":"tokenizer","required":true,"size_bytes":2776833,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/vocab.json","local_relative_path":"vocab.json","cluster_relative_path":"vocab.json","status":"NOT_DOWNLOADED"},
+        {"filename":"chat_template.json","role":"chat_template","required":true,"size_bytes":5502,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/chat_template.json","local_relative_path":"chat_template.json","cluster_relative_path":"chat_template.json","status":"NOT_DOWNLOADED"},
+        {"filename":"generation_config.json","role":"generation_config","required":true,"size_bytes":269,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/generation_config.json","local_relative_path":"generation_config.json","cluster_relative_path":"generation_config.json","status":"NOT_DOWNLOADED"},
+        {"filename":"video_preprocessor_config.json","role":"processor","required":true,"size_bytes":385,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/resolve/ebb281ec70b05090aa6165b016eac8ec08e71b17/video_preprocessor_config.json","local_relative_path":"video_preprocessor_config.json","cluster_relative_path":"video_preprocessor_config.json","status":"NOT_DOWNLOADED"}
+      ]
+    },
+    {
+      "component_id": "qari-ocr-0.4.0@aa65b4a4",
+      "name": "Qari-OCR 0.4.0 LoRA adapter",
+      "repo_id": "NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct",
+      "revision": "aa65b4a46336c6cc608e7da5a015f8e71472a68b",
+      "source_repository": "https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct",
+      "architecture": "PEFT LoRA adapter for Qwen3-VL-4B-Instruct",
+      "config_processor_tokenizer": {"config":"adapter_config.json","processor":["preprocessor_config.json","video_preprocessor_config.json"],"tokenizer":["tokenizer.json","tokenizer_config.json","merges.txt","vocab.json"]},
+      "license": {"spdx":"Apache-2.0","status":"VERIFIED_FROM_REPOSITORY_METADATA"},
+      "local_root": "D:/agenticdoc_e2/hf/hub/models--NAMAA-Space--Qari-OCR-0.4.0-VL-4B-Instruct/snapshots/aa65b4a46336c6cc608e7da5a015f8e71472a68b",
+      "cluster_root": "/opt/agenticdoc/models/huggingface/NAMAA-Space--Qari-OCR-0.4.0-VL-4B-Instruct/aa65b4a46336c6cc608e7da5a015f8e71472a68b",
+      "declared_status": "NOT_DOWNLOADED",
+      "artifacts": [
+        {"filename":"adapter_model.safetensors","role":"adapter_weights","required":true,"size_bytes":314674760,"sha256":"892c3601aa35042367f3d58fbb616b7c63fd6d47e56af8c33cfa9e96c8b2e99a","checksum_status":"SOURCE_LFS_SHA256","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/adapter_model.safetensors","local_relative_path":"adapter_model.safetensors","cluster_relative_path":"adapter_model.safetensors","status":"NOT_DOWNLOADED"},
+        {"filename":"adapter_config.json","role":"adapter_config","required":true,"size_bytes":1500,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/adapter_config.json","local_relative_path":"adapter_config.json","cluster_relative_path":"adapter_config.json","status":"NOT_DOWNLOADED"},
+        {"filename":"preprocessor_config.json","role":"processor","required":true,"size_bytes":782,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/preprocessor_config.json","local_relative_path":"preprocessor_config.json","cluster_relative_path":"preprocessor_config.json","status":"NOT_DOWNLOADED"},
+        {"filename":"tokenizer.json","role":"tokenizer","required":true,"size_bytes":11422922,"sha256":"f3465fbaeee0e061479220dba99d9412caf932f9947d9bcf8aba4fcceae9f3a1","checksum_status":"SOURCE_LFS_SHA256","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/tokenizer.json","local_relative_path":"tokenizer.json","cluster_relative_path":"tokenizer.json","status":"NOT_DOWNLOADED"},
+        {"filename":"tokenizer_config.json","role":"tokenizer","required":true,"size_bytes":5473,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/tokenizer_config.json","local_relative_path":"tokenizer_config.json","cluster_relative_path":"tokenizer_config.json","status":"NOT_DOWNLOADED"},
+        {"filename":"added_tokens.json","role":"tokenizer","required":true,"size_bytes":707,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/added_tokens.json","local_relative_path":"added_tokens.json","cluster_relative_path":"added_tokens.json","status":"NOT_DOWNLOADED"},
+        {"filename":"chat_template.jinja","role":"chat_template","required":true,"size_bytes":5292,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/chat_template.jinja","local_relative_path":"chat_template.jinja","cluster_relative_path":"chat_template.jinja","status":"NOT_DOWNLOADED"},
+        {"filename":"merges.txt","role":"tokenizer","required":true,"size_bytes":1671853,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/merges.txt","local_relative_path":"merges.txt","cluster_relative_path":"merges.txt","status":"NOT_DOWNLOADED"},
+        {"filename":"special_tokens_map.json","role":"tokenizer","required":true,"size_bytes":614,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/special_tokens_map.json","local_relative_path":"special_tokens_map.json","cluster_relative_path":"special_tokens_map.json","status":"NOT_DOWNLOADED"},
+        {"filename":"video_preprocessor_config.json","role":"processor","required":true,"size_bytes":817,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/video_preprocessor_config.json","local_relative_path":"video_preprocessor_config.json","cluster_relative_path":"video_preprocessor_config.json","status":"NOT_DOWNLOADED"},
+        {"filename":"vocab.json","role":"tokenizer","required":true,"size_bytes":2776833,"sha256":null,"checksum_status":"UNVERIFIED","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/vocab.json","local_relative_path":"vocab.json","cluster_relative_path":"vocab.json","status":"NOT_DOWNLOADED"},
+        {"filename":"training_args.bin","role":"training_metadata","required":false,"size_bytes":6289,"sha256":"f66a139a25bd9a45ae1f347f95aa2e69eb2b98d2b814e6c998038af22d07930d","checksum_status":"SOURCE_LFS_SHA256","source_url":"https://huggingface.co/NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct/resolve/aa65b4a46336c6cc608e7da5a015f8e71472a68b/training_args.bin","local_relative_path":"training_args.bin","cluster_relative_path":"training_args.bin","status":"NOT_DOWNLOADED"}
+      ]
+    },
+    {
+      "component_id": "qwen3-vl-4b-ollama-q4km@unverified",
+      "name": "Qwen3-VL-4B-Instruct Ollama Q4_K_M blob",
+      "repo_id": "Qwen/Qwen3-VL-4B-Instruct",
+      "revision": "ollama:qwen3-vl:4b-instruct-q4_K_M",
+      "source_repository": "UNVERIFIED",
+      "architecture": "GGUF Q4_K_M quantization served by Ollama; exact blob identity MISSING",
+      "config_processor_tokenizer": {"config":"Ollama manifest MISSING","processor":["embedded or referenced projector: UNVERIFIED"],"tokenizer":["embedded: UNVERIFIED"]},
+      "license": {"spdx":"Apache-2.0 upstream; packaged artifact provenance UNVERIFIED","status":"BLOCKED"},
+      "local_root": "D:/agenticdoc_e2/ollama/qwen3-vl-4b-instruct-q4_K_M",
+      "cluster_root": "/opt/agenticdoc/models/ollama/qwen3-vl-4b-instruct-q4_K_M",
+      "root_must_end_with_revision": false,
+      "declared_status": "BLOCKED",
+      "artifacts": []
+    }
+  ],
+  "deployments": [
+    {
+      "deployment_id":"paddleocr-vl-1.6","model_name":"PaddleOCR-VL 1.6","variant":"BF16 safetensors","pipeline_mode":"element-level whole-page OCR prompt","primary_component":"paddleocr-vl-1.6@132c45f5","components":["paddleocr-vl-1.6@132c45f5"],"runtime_profile":"windows-transformers-2026-11-17","inference_framework":"PyTorch + Transformers 5.23.0","quantization":"none / repository dtype","hardware":{"min_ram_gb":4.0,"min_vram_gb":3.0,"cpu_feasible":true},"os_arch_constraints":{"allowed_os":["Windows","Linux"],"allowed_arch":["AMD64","x86_64"]},"offline_startup":["Set offline environment controls","Run preflight","Start Streamlit","Select exact deployment"],"offline_validation":["Hash every required artifact","Match exact dependency versions","Block non-loopback sockets","Run real isolated inference before promotion"],"verification":{"artifacts_present":true,"hashes_verified":true,"dependencies_verified":true,"successfully_loaded":true,"network_isolated_inference_tested":false,"compatible_target_tested":false},"deployment_status":"HASH_VERIFIED","missing_or_unverified":["Real inference under enforced network isolation","Target cluster OS/GPU/runtime compatibility","Wheelhouse hashes","Container image digest"]
+    },
+    {
+      "deployment_id":"paddleocr-vl-1.6-full-page","model_name":"PaddleOCR-VL 1.6 + PP-DocLayoutV3","variant":"Official full-page layout + element recognition, vendor-default configuration","pipeline_mode":"official_full_page","primary_component":"paddleocr-vl-1.6@132c45f5","components":["paddleocr-vl-1.6@132c45f5","pp-doclayoutv3@e4f489dc"],"runtime_profile":"windows-paddle-full-page-2026-11-17","inference_framework":"PaddleOCR 3.7.0 orchestration + Transformers recognition","quantization":"none / repository dtype","hardware":{"min_ram_gb":5.0,"min_vram_gb":3.0,"cpu_feasible":true},"os_arch_constraints":{"allowed_os":["Windows","Linux"],"allowed_arch":["AMD64","x86_64"]},"offline_startup":["Place both exact snapshots in declared roots","Install exact offline dependency set","Run preflight","Launch Streamlit"],"offline_validation":["Validate layout model and recognition model independently","Block non-loopback sockets","Preserve raw layout and recognition intermediates"],"verification":{"artifacts_present":true,"hashes_verified":true,"dependencies_verified":true,"successfully_loaded":false,"network_isolated_inference_tested":false,"compatible_target_tested":false},"deployment_status":"BLOCKED","missing_or_unverified":["BLOCKED: Windows Smart App Control blocks unsigned scikit-learn 1.9.1 native extensions required by PaddleX import and by PaddleOCR-VL title-level KMeans; IT approval or a host without this policy is required","Official pipeline has never loaded or run (no real full-page inference)","PaddlePaddle runtime need unverified until a page runs","Wheelhouse and container digest","Target cluster specifications"]
+    },
+    {
+      "deployment_id":"paddleocr-vl-1.6-full-page-exp-px4m","model_name":"PaddleOCR-VL 1.6 + PP-DocLayoutV3","variant":"Official full-page layout + element recognition, EXPERIMENTAL max_pixels 4M","pipeline_mode":"official_full_page","primary_component":"paddleocr-vl-1.6@132c45f5","components":["paddleocr-vl-1.6@132c45f5","pp-doclayoutv3@e4f489dc"],"runtime_profile":"windows-paddle-full-page-2026-11-17","inference_framework":"PaddleOCR 3.7.0 orchestration + Transformers recognition","quantization":"none / repository dtype","hardware":{"min_ram_gb":6.0,"min_vram_gb":3.0,"cpu_feasible":true},"os_arch_constraints":{"allowed_os":["Windows","Linux"],"allowed_arch":["AMD64","x86_64"]},"offline_startup":["Place both exact snapshots in declared roots","Install exact offline dependency set","Run preflight","Launch Streamlit"],"offline_validation":["Validate layout model and recognition model independently","Block non-loopback sockets","Preserve raw layout and recognition intermediates"],"verification":{"artifacts_present":true,"hashes_verified":true,"dependencies_verified":true,"successfully_loaded":false,"network_isolated_inference_tested":false,"compatible_target_tested":false},"deployment_status":"BLOCKED","missing_or_unverified":["BLOCKED: Windows Smart App Control blocks unsigned scikit-learn 1.9.1 native extensions required by PaddleX import and by PaddleOCR-VL title-level KMeans; IT approval or a host without this policy is required","Official pipeline has never loaded or run (no real full-page inference)","PaddlePaddle runtime need unverified until a page runs","Wheelhouse and container digest","Target cluster specifications"]
+    },
+    {
+      "deployment_id":"qwen3-vl-4b","model_name":"Qwen3-VL-4B-Instruct","variant":"BF16","pipeline_mode":"element","primary_component":"qwen3-vl-4b@ebb281ec","components":["qwen3-vl-4b@ebb281ec"],"runtime_profile":"windows-transformers-2026-11-17","inference_framework":"PyTorch + Transformers","quantization":"BF16","hardware":{"min_ram_gb":11.0,"min_vram_gb":10.0,"cpu_feasible":true},"os_arch_constraints":{"allowed_os":["Windows","Linux"],"allowed_arch":["AMD64","x86_64"]},"offline_startup":["Place exact snapshot","Run preflight","Launch Streamlit"],"offline_validation":["Hash artifacts","Isolate network","Run real inference"],"verification":{"artifacts_present":false,"hashes_verified":false,"dependencies_verified":true,"successfully_loaded":false,"network_isolated_inference_tested":false,"compatible_target_tested":false},"deployment_status":"NOT_DOWNLOADED","missing_or_unverified":["Model snapshot not downloaded or authorized","Non-LFS file checksums","Real isolated inference","Target compatibility"]
+    },
+    {
+      "deployment_id":"qari-ocr-0.4.0","model_name":"Qari-OCR 0.4.0","variant":"LoRA adapter + Qwen3-VL-4B base","pipeline_mode":"element","primary_component":"qari-ocr-0.4.0@aa65b4a4","components":["qari-ocr-0.4.0@aa65b4a4","qwen3-vl-4b@ebb281ec"],"runtime_profile":"windows-qari-2026-11-17","inference_framework":"PEFT + PyTorch + Transformers","quantization":"BF16 base + LoRA adapter","hardware":{"min_ram_gb":12.0,"min_vram_gb":10.0,"cpu_feasible":true},"os_arch_constraints":{"allowed_os":["Windows","Linux"],"allowed_arch":["AMD64","x86_64"]},"offline_startup":["Place exact base and adapter snapshots","Install pinned PEFT runtime","Run preflight"],"offline_validation":["Verify base and adapter revision pairing","Hash artifacts","Run isolated inference"],"verification":{"artifacts_present":false,"hashes_verified":false,"dependencies_verified":false,"successfully_loaded":false,"network_isolated_inference_tested":false,"compatible_target_tested":false},"deployment_status":"NOT_DOWNLOADED","missing_or_unverified":["Adapter and base snapshots not downloaded or authorized","Exact PEFT version","Real isolated inference","Target compatibility"]
+    },
+    {
+      "deployment_id":"qwen3-vl-4b-ollama-q4km","model_name":"Qwen3-VL-4B-Instruct","variant":"Ollama Q4_K_M","pipeline_mode":"element","primary_component":"qwen3-vl-4b-ollama-q4km@unverified","components":["qwen3-vl-4b-ollama-q4km@unverified"],"runtime_profile":"ollama-local-unverified","inference_framework":"Ollama loopback server","quantization":"Q4_K_M","hardware":{"min_ram_gb":6.0,"min_vram_gb":0.0,"cpu_feasible":true},"os_arch_constraints":{"allowed_os":["Windows","Linux"],"allowed_arch":["AMD64","x86_64"]},"offline_startup":["Resolve exact blob digest and Ollama version first"],"offline_validation":["Verify blob digest","Verify Ollama build","Deny non-loopback endpoint","Run isolated inference"],"verification":{"artifacts_present":false,"hashes_verified":false,"dependencies_verified":false,"successfully_loaded":false,"network_isolated_inference_tested":false,"compatible_target_tested":false},"deployment_status":"BLOCKED","missing_or_unverified":["Exact Ollama manifest and blob digest","Exact artifact size and SHA-256","Ollama executable version/build","Projector/tokenizer packaging","All inference verification"]
+    }
+  ],
+  "target_cluster_requirements": {
+    "status":"UNVERIFIED",
+    "required_from_operator":["Linux distribution and exact version","kernel and glibc versions","CPU architecture and RAM per node","GPU model/count/VRAM and MIG policy","NVIDIA driver, CUDA and cuDNN versions","container runtime and approved base-image digest","orchestrator/Kubernetes version and scheduling policy","offline registry and artifact transfer/signing process","filesystem mount paths, permissions and capacity","Python/runtime policy","outbound-network enforcement evidence","security/FIPS requirements","performance/SLA and concurrency targets"]
+  }
+}

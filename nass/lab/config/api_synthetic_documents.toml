@@ -1,0 +1,68 @@
+# Documents ELIGIBLE for hosted API evaluation, by exact SHA-256 only.
+# authorization_category (default "synthetic") fixes which declaration the user must make.
+#
+# Eligibility is not permission: each hash also needs a separate, explicit,
+# write-once user authorization (results/api_document_authorizations/<sha>/), which
+# expires and can be revoked. A file's name or folder never confers eligibility.
+#
+# Entries were added only after verifying the actual bytes on 2026-11-17: SHA-256,
+# size, a parseable 8-page PDF, an embedded title declaring synthetic content, and a
+# Ground Truth file naming exactly this file and page count.
+
+[[documents]]
+id = "agenticdoc-arabic-benchmark-v1"
+filename = "AgenticDoc_Arabic_Benchmark.pdf"
+sha256 = "17b6d40063a71f42f9701fb24e6863890e57339b400e4878dead005583447fd0"
+bytes = 1596982
+page_count = 8
+title = "AgenticDoc Arabic Benchmark — التقرير السنوي لعمليات البيانات والذكاء الاصطناعي ٢٠٢٥ (بيانات اصطناعية)"
+provenance = "AgenticDoc synthetic benchmark generated 2026-11-16 (HTML/CSS rendered by headless Chrome); fictional organization and figures"
+ground_truth_filename = "AgenticDoc_Arabic_GroundTruth.json"
+ground_truth_sha256 = "7a75bc74f05f73177a14e7130aab57a740f139cb3c9e53f5f6d10b22f49e42ee"
+verified_on = "2026-11-17"
+
+[[documents]]
+id = "agenticdoc-english-benchmark-v1"
+filename = "AgenticDoc_English_Benchmark.pdf"
+sha256 = "afa66a7d703d0be245d6a571d5ec3c3e419ad97c5f874cb98568605875618263"
+bytes = 1638900
+page_count = 8
+title = "AgenticDoc English Benchmark — Sarab Data Systems Annual Data & AI Operations Report 2025 (Synthetic)"
+provenance = "AgenticDoc synthetic benchmark generated 2026-11-16 (HTML/CSS rendered by headless Chrome); fictional organization and figures"
+ground_truth_filename = "AgenticDoc_English_GroundTruth.json"
+ground_truth_sha256 = "8045890a5f85d8aa4e7ac045c3c2a78de697a12a9a826cd1f684be954caec1df"
+verified_on = "2026-11-17"
+
+# --- E2-D traffic accident report pair (added 2026-11-17) -------------------------
+# Verified bytes only: SHA-256, size, a parseable PDF (%PDF-1.7) and page count.
+# The user designated these files as evaluation candidates and made them eligible.
+# Their synthetic status was NOT independently verified: they are Microsoft Word
+# exports with no embedded "synthetic" marking. The user states they are user-owned
+# evaluation documents, not company files, so they use the `user_owned_test`
+# category: the synthetic declaration is refused for them, and the user must instead
+# make the user-owned declaration (every page reviewed; no personal, confidential or
+# restricted data without explicit permission to transmit it). Eligibility is not
+# permission: each still needs that explicit, expiring, revocable authorization.
+# No Ground Truth exists for either file, so no accuracy metric is ever computed.
+
+[[documents]]
+id = "traffic-accident-report-ar-v1"
+filename = "تحليل العوامل المؤثرة في الحوادث المرورية.pdf"
+sha256 = "050bd9cbf49bf05059273a63f02e67b28b470c226b2243a32e937fba47ddc0d6"
+bytes = 694196
+page_count = 18
+title = "Traffic accident factors analysis report (Arabic, 18 pages; prose, chart images, tables)"
+provenance = "User-designated E2-D evaluation candidate (Word export, PDF 1.7); synthetic status not independently verified"
+verified_on = "2026-11-17"
+authorization_category = "user_owned_test"
+
+[[documents]]
+id = "traffic-accident-report-en-v1"
+filename = "Traffic_Accident_Report_English.pdf"
+sha256 = "fc032133767a65ab8c95e444aaff089b76dce9168014e67ea5a8137b77171aa4"
+bytes = 534244
+page_count = 13
+title = "Traffic accident report, English translation (13 pages; prose, indicator images, tables)"
+provenance = "User-designated E2-D evaluation candidate (Word export, PDF 1.7); English translation of the Arabic report, chart images not reproduced; synthetic status not independently verified"
+verified_on = "2026-11-17"
+authorization_category = "user_owned_test"

@@ -1,0 +1,175 @@
+# Phase E2-A OCR/VLM model registry (local inference only).
+#
+# Facts verified 2026-11-17 from the Hugging Face model API (metadata only;
+# no weights downloaded). Revisions are pinned commits: a run records the
+# exact revision it used. Vendor benchmark scores are NOT used anywhere.
+#
+# backend:
+#   "transformers" - in-process PyTorch, offline (local_files_only); weights
+#                    must already be in the local Hugging Face cache.
+#   "ollama"       - a LOCAL Ollama server; endpoint must be a loopback address.
+#   "remote"       - placeholder for a future remote backend. Always refused in
+#                    E2-A: no document or image leaves this machine.
+# Nothing here downloads weights. Downloads need explicit user approval.
+
+[[models]]
+id = "qari-ocr-0.4.0"
+label = "Qari-OCR 0.4.0 (LoRA on Qwen3-VL-4B)"
+backend = "transformers"
+repo_id = "NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct"
+revision = "aa65b4a46336c6cc608e7da5a015f8e71472a68b"
+weights_kind = "peft_lora_adapter"
+# The adapter cannot run standalone: it is loaded on top of this base model.
+base_repo_id = "Qwen/Qwen3-VL-4B-Instruct"
+base_revision = "ebb281ec70b05090aa6165b016eac8ec08e71b17"
+model_class = "Qwen3VLForConditionalGeneration"
+license = "Apache-2.0 (adapter card); base Apache-2.0; training data seemorg/books-ocr MIT"
+languages = "Arabic only (card); trained on Islamic books/manuscripts"
+prompt_id = "qari_free_ocr_v1"
+download_gb = 9.2           # 0.32 GB adapter + 8.89 GB base (BF16 safetensors)
+min_ram_gb = 12.0           # BF16 base + adapter on CPU (estimate; not measured)
+min_vram_gb = 10.0          # BF16 on GPU (estimate)
+cpu_feasible = true         # possible but very slow; tight on a 16 GB machine
+required_packages = ["torch", "transformers", "peft"]
+enabled = true
+[models.generation]
+max_new_tokens = 2048
+do_sample = false
+
+[[models]]
+id = "paddleocr-vl-1.6"
+label = "PaddleOCR-VL 1.6 (0.9B)"
+backend = "transformers"
+repo_id = "PaddlePaddle/PaddleOCR-VL-1.6"
+revision = "132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd"
+weights_kind = "full"
+model_class = "AutoModelForImageTextToText"
+# transformers >= 5 implements paddleocr_vl natively (verified with 5.23.0), so the
+# repository's modeling_*.py is never executed. Reviewed anyway at this revision.
+trust_remote_code = false
+license = "Apache-2.0 (LICENSE file in repository)"
+languages = "Card tags: en, zh, multilingual. Arabic not stated on the 1.6 card; must be measured"
+prompt_id = "paddle_ocr_v1"
+download_gb = 1.93
+min_ram_gb = 4.0
+min_vram_gb = 3.0
+cpu_feasible = true
+required_packages = ["torch", "transformers"]
+min_transformers = "5.0.0"
+enabled = true
+notes = "MODE: whole page through the element-level 'OCR:' prompt (no layout model). The official page-level pipeline (layout detection + VL) needs a separate layout model and is not run; results are labelled accordingly."
+[models.generation]
+max_new_tokens = 4096
+do_sample = false
+use_cache = true            # repository generation_config sets use_cache=false (very slow decode)
+
+[[models]]
+id = "paddleocr-vl-1.6-full-page"
+label = "PaddleOCR-VL 1.6 — official full-page pipeline"
+backend = "paddleocr_vl"
+pipeline_mode = "official_full_page"
+pipeline_version = "v1.6"
+pipeline_engine = "transformers"
+repo_id = "PaddlePaddle/PaddleOCR-VL-1.6"
+revision = "132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd"
+weights_kind = "full"
+model_class = "AutoModelForImageTextToText"
+trust_remote_code = false
+license = "Apache-2.0 (PaddleOCR, PaddleX, PP-DocLayoutV3 and PaddleOCR-VL repositories)"
+languages = "Official multilingual pipeline; Arabic and English must be measured on the verified benchmark"
+prompt_id = "paddle_ocr_v1"
+download_gb = 0.13328967   # additional layout snapshot only; VL snapshot is already present
+min_ram_gb = 5.0
+min_vram_gb = 3.0
+cpu_feasible = true
+required_packages = ["torch", "transformers", "paddleocr"]
+min_transformers = "5.0.0"
+min_paddleocr = "3.7.0"     # fixes Transformers full-pipeline requiring PaddlePaddle
+layout_model_name = "PP-DocLayoutV3"
+layout_repo_id = "PaddlePaddle/PP-DocLayoutV3_safetensors"
+layout_revision = "e4f489dc536556fc1be02b973ba06756e0d4a2ac"
+layout_download_bytes = 133289670
+layout_required_files = ["config.json", "model.safetensors", "preprocessor_config.json", "inference.yml"]
+enabled = true
+notes = "BASELINE: official v1.6 pipeline with vendor defaults (no option overridden): PP-DocLayoutV3 layout/reading order -> region crops -> PaddleOCR-VL-1.6 recognition -> structured assembly. Explicit local directories prevent automatic downloads. Vendor defaults drop header/footer/number/footnote/aside text from the Markdown."
+configuration = "vendor_default"
+
+[[models]]
+id = "paddleocr-vl-1.6-full-page-exp-px4m"
+label = "PaddleOCR-VL 1.6 — official full-page pipeline (EXPERIMENTAL: max_pixels 4M)"
+backend = "paddleocr_vl"
+pipeline_mode = "official_full_page"
+pipeline_version = "v1.6"
+pipeline_engine = "transformers"
+repo_id = "PaddlePaddle/PaddleOCR-VL-1.6"
+revision = "132c45f52c0a26ed5a6b2f6bd8e3985794cc27dd"
+weights_kind = "full"
+model_class = "AutoModelForImageTextToText"
+trust_remote_code = false
+license = "Apache-2.0 (PaddleOCR, PaddleX, PP-DocLayoutV3 and PaddleOCR-VL repositories)"
+languages = "Official multilingual pipeline; Arabic and English must be measured on the verified benchmark"
+prompt_id = "paddle_ocr_v1"
+download_gb = 0.0           # same assets as the baseline
+min_ram_gb = 6.0            # larger regions (4M px vs the vendor 1,003,520) need more memory
+min_vram_gb = 3.0
+cpu_feasible = true
+required_packages = ["torch", "transformers", "paddleocr"]
+min_transformers = "5.0.0"
+min_paddleocr = "3.7.0"
+layout_model_name = "PP-DocLayoutV3"
+layout_repo_id = "PaddlePaddle/PP-DocLayoutV3_safetensors"
+layout_revision = "e4f489dc536556fc1be02b973ba06756e0d4a2ac"
+layout_download_bytes = 133289670
+layout_required_files = ["config.json", "model.safetensors", "preprocessor_config.json", "inference.yml"]
+enabled = true
+configuration = "experimental"
+notes = "EXPERIMENTAL project configuration, not the vendor baseline. Overrides: max_pixels 4,000,000 per region (vendor 1,003,520) and an explicit max_new_tokens 4096 (vendor default is also 4096). repetition_penalty 1.1 is recorded as requested but PaddleX 3.7.2's local model ignores it."
+[models.generation]
+max_new_tokens = 4096
+max_pixels = 4000000
+repetition_penalty = 1.1
+
+[[models]]
+id = "qwen3-vl-4b"
+label = "Qwen3-VL-4B-Instruct (BF16)"
+backend = "transformers"
+repo_id = "Qwen/Qwen3-VL-4B-Instruct"
+revision = "ebb281ec70b05090aa6165b016eac8ec08e71b17"
+weights_kind = "full"
+model_class = "Qwen3VLForConditionalGeneration"
+license = "Apache-2.0"
+languages = "Card: expanded OCR for 32 languages (list not enumerated on card; Arabic must be measured)"
+prompt_id = "vlm_transcribe_v1"
+download_gb = 8.89
+min_ram_gb = 11.0
+min_vram_gb = 10.0
+cpu_feasible = true
+required_packages = ["torch", "transformers"]
+enabled = true
+[models.generation]
+max_new_tokens = 2048
+do_sample = false
+
+[[models]]
+id = "qwen3-vl-4b-ollama-q4km"
+label = "Qwen3-VL-4B-Instruct (Ollama Q4_K_M, quantized)"
+backend = "ollama"
+repo_id = "Qwen/Qwen3-VL-4B-Instruct"
+revision = "ollama:qwen3-vl:4b-instruct-q4_K_M"
+weights_kind = "quantized_gguf"
+ollama_tag = "qwen3-vl:4b-instruct-q4_K_M"
+endpoint = "http://127.0.0.1:11434"
+license = "Apache-2.0 (upstream weights)"
+languages = "As Qwen3-VL-4B; quantization may change accuracy - not equivalent to BF16"
+prompt_id = "vlm_transcribe_v1"
+download_gb = 3.3
+min_ram_gb = 6.0
+min_vram_gb = 0.0
+cpu_feasible = true
+required_packages = []
+enabled = true
+[models.generation]
+num_predict = 2048
+temperature = 0.0
+seed = 0
+num_ctx = 8192

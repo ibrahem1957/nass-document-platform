@@ -1,0 +1,4 @@
+# BLOCKED / INCOMPLETE: do not install from this file.
+# Qari needs the exact Transformers base environment plus PEFT. The exact PEFT
+# version and its complete transitive Windows wheel set remain UNVERIFIED.
+# The manifest lock_complete flag is false, so preflight fails closed.

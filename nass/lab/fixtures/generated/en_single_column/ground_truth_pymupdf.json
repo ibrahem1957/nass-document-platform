@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "task": "text",
+  "source": "fixture",
+  "fixture": "en_single_column",
+  "producer": "PyMuPDF",
+  "producer_version": "1.26.5:",
+  "font": "Amiri Regular",
+  "pages": [
+    {
+      "page": 1,
+      "text": "AgenticDoc extraction lab.\nThis is a deterministic English paragraph.",
+      "status": "verified",
+      "tags": []
+    }
+  ]
+}

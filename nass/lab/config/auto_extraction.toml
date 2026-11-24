@@ -1,0 +1,46 @@
+# Automatic Extraction Mode - operational settings (environment variables override these).
+# Never put tokens or keys in this file: the Qari token is read from QARI_SERVICE_TOKEN only.
+# The proven benchmark settings (Qari recipe, PP-DocLayout model, 60 px native PNG crops) live in
+# lab/core/auto/config.py (ProvenSettings) and are not changed here. To deviate deliberately, set
+# allow_proven_overrides = true and list the changes under [proven_overrides]; they are recorded in
+# every execution manifest.
+
+[app]
+environment = "local"          # local | staging | production
+# results_dir = "D:/agenticdoc_e2/results"   # default: AGENTICDOC_RESULTS_DIR / the lab default
+max_pdf_mb = 200
+max_pages = 500
+
+[layout]
+# Local PP-DocLayout_plus-L directory (downloaded beforehand; never downloaded by the app). Prefer
+# LAYOUT_MODEL_DIR in nass/.env. In this file use a single-quoted TOML literal string for
+# Windows paths so backslashes are not escapes, or forward slashes:
+# model_dir = 'C:\Users\<you>\models\PP-DocLayout_plus-L_infer'
+# model_dir = "C:/Users/<you>/models/PP-DocLayout_plus-L_infer"
+device = "cpu"                 # cpu | gpu:0 | cuda:0 ...
+selection_policy = "confident_only"   # confident_only | review_all
+labels = ["chart", "image", "table"]
+attach_titles = true
+captions_below = false
+page_render_dpi = 200          # only for pages without a usable embedded raster
+
+[qari]
+# service_url = "http://127.0.0.1:8000"   # set QARI_SERVICE_URL instead for each environment
+request_timeout_s = 180
+max_connect_retries = 2        # only when nothing was transmitted
+concurrency = 1
+# Endpoint trust is set by the administrator (no user approval in Automatic Extraction):
+#   local                 service on this machine (loopback host only)
+#   internal              company-internal GPU server (no public IP address)
+#   development_external  external development service (e.g. RunPod): https + host in trusted_development_hosts
+deployment_mode = "local"
+automatic_enabled = true
+# trusted_development_hosts = ["<pod-id>-8000.proxy.runpod.net"]   # development_external only
+# max_image_pixels = 4000000   # default: no resizing (native pixels); any downscaling is recorded
+
+[processing]
+on_failure = "continue"        # continue | stop (after a Qari service error)
+max_jobs = 2000
+
+[validation]
+review_policy = "flag"         # flag | block_finalize

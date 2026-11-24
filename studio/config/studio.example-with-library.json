@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "kind": "document_processing_studio_config",
+  "jobs_root": "data/jobs",
+  "max_upload_mb": 200,
+  "stage_timeout_s": 7200,
+  "nass_root": "../nass",
+  "nass_python": "current",
+  "docprep_root": "../docprep",
+  "docprep_python": "current",
+  "existing_documents": [
+    {
+      "id": "example",
+      "label": "Example processed document",
+      "nass_document": "C:/path/to/automatic_extraction/run_<id>/document.json",
+      "prepared_document": "C:/path/to/prepared/run_<id>__<stamp>/prepared_document.json",
+      "source_pdf": "C:/path/to/automatic_extraction/run_<id>/source.pdf"
+    }
+  ]
+}

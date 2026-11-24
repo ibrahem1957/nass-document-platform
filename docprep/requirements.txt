@@ -1,0 +1,8 @@
+# Document Understanding & Preparation: Document Structure Builder
+# Python 3.12. PyMuPDF is optional at runtime: without it (or without source.pdf) typography is reported unavailable.
+pymupdf==1.26.5
+# Full JSON Schema validation of prepared_document.json (a failed or unavailable check is a validation error).
+jsonschema>=4.18
+
+# Tests
+pytest>=8

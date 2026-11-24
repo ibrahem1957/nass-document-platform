@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "task": "text",
+  "source": "fixture",
+  "fixture": "mixed_numbers",
+  "producer": "Chromium",
+  "producer_version": "msedge.exe",
+  "font": "Amiri Regular",
+  "pages": [
+    {
+      "page": 1,
+      "text": "تقرير ٢٠٢٥ — Revenue 2025\nالقيمة ١٢٫٥٪ والسعر ٣٠ ريال — Total: 30 SAR.",
+      "status": "verified",
+      "tags": [
+        "mixed_ar_en",
+        "arabic_indic_digits",
+        "western_digits"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+# OPTIONAL: local PP-DocLayout layout detection for Phase 2 (scanned pages). Not needed for anything else.
+# Install PaddlePaddle FIRST, exactly one of the two (CPU or GPU), from the official index:
+#   CPU:  python -m pip install paddlepaddle==3.2.1 -i https://www.paddlepaddle.org.cn/packages/stable/cpu/
+#   GPU:  python -m pip install paddlepaddle-gpu==3.2.1 -i https://www.paddlepaddle.org.cn/packages/stable/cu126/
+# Then this file:
+paddleocr>=3.0
+# Model weights are NOT downloaded by the app: unpack an official *_infer package into a local folder
+# (see lab/README.md, "Local PP-DocLayout") and enter that folder in Phase 2.

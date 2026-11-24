@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document Processing Studio</title>
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><p class="eyebrow">Nass → DocPrep</p><h1>Document Processing Studio</h1>
+      <p>Upload once. Read the extraction and the organized document separately.</p></div>
+    <span class="local-badge">Local · single user</span>
+  </header>
+  <main>
+    <section id="uploadScreen" class="screen">
+      <div class="hero-card">
+        <h2>Process a PDF</h2>
+        <p>Arabic or English, digital or scanned, within the capabilities of the configured Nass pipeline.</p>
+        <form id="uploadForm">
+          <label class="file-field"><span>Choose PDF</span>
+            <input id="pdfInput" name="pdf" type="file" accept="application/pdf,.pdf" required></label>
+          <div id="externalNotice" class="external-notice" hidden>
+            <strong>External OCR may use RunPod</strong><p id="externalMessage"></p>
+          </div>
+          <button id="processButton" class="primary" type="submit">Process Document</button>
+        </form>
+        <p id="uploadError" class="error" role="alert"></p>
+      </div>
+      <details class="previous-card"><summary>Open Previously Processed Document</summary>
+        <div class="previous-controls"><select id="librarySelect" aria-label="Previously processed document"></select>
+          <button id="openLibrary" type="button">Open without reprocessing</button></div>
+      </details>
+    </section>
+    <section id="progressScreen" class="screen" hidden>
+      <div class="progress-card"><p class="eyebrow">Processing job</p><h2 id="jobTitle">Preparing document</h2>
+        <ol id="stageList" class="stages"></ol><p id="jobMessage" class="job-message" aria-live="polite"></p>
+        <div class="actions"><button id="openPartial" type="button" hidden>Open available result</button>
+          <button id="cancelJob" type="button">Cancel</button><button id="retryJob" type="button" hidden>Retry as a new job</button>
+          <button id="newUpload" type="button">Process another PDF</button></div>
+      </div>
+    </section>
+    <section id="resultsScreen" class="screen" hidden>
+      <div class="result-header"><div><p class="eyebrow">Document ready for inspection</p><h2 id="resultTitle"></h2></div>
+        <div class="actions"><button id="backToUpload" type="button">New document</button>
+          <button id="togglePdf" type="button">Original PDF</button></div></div>
+      <iframe id="pdfPreview" class="pdf-preview" title="Original PDF" hidden></iframe>
+      <nav class="result-tabs" aria-label="Document results">
+        <button type="button" data-tab="nass" class="active">Nass — Extraction</button>
+        <button type="button" data-tab="docprep">DocPrep — Organized Document</button>
+      </nav>
+      <section id="nassPanel" class="result-panel">
+        <div class="panel-tools"><div><p>Exact extracted content in original page order.</p>
+          <div class="view-tabs" role="tablist" aria-label="Nass display mode">
+            <button type="button" data-view-group="nass" data-view="readable" class="active" aria-selected="true">Readable View</button>
+            <button type="button" data-view-group="nass" data-view="json" aria-selected="false">JSON View</button>
+          </div></div><div>
+          <a id="downloadNassJson" class="download" download>Download Nass JSON</a>
+          <a id="downloadNassMarkdown" class="download" download>Download extracted content (.md)</a></div></div>
+        <div id="nassReadable"><div id="nassDocument" class="readable-document"></div></div>
+        <div id="nassJsonView" class="json-view" hidden>
+          <div class="json-toolbar"><span id="nassJsonStatus" role="status"></span>
+            <button id="copyNassJson" type="button" disabled>Copy JSON</button></div>
+          <pre id="nassJson" tabindex="0" aria-label="Complete Nass document JSON"></pre>
+        </div>
+      </section>
+      <section id="docprepPanel" class="result-panel" hidden>
+        <div class="panel-tools"><div><p>Original content organized using the saved DocPrep structure.</p>
+          <div class="view-tabs" role="tablist" aria-label="DocPrep display mode">
+            <button type="button" data-view-group="docprep" data-view="readable" class="active" aria-selected="true">Readable View</button>
+            <button type="button" data-view-group="docprep" data-view="json" aria-selected="false">JSON View</button>
+          </div></div><div>
+          <a id="downloadPreparedJson" class="download" download>Download Prepared Document JSON</a>
+          <a id="downloadPreparedMarkdown" class="download" download>Download organized document (.md)</a></div></div>
+        <div id="docprepUnavailable" class="notice" hidden></div>
+        <div id="docprepReadable"><div id="docprepDocument" class="readable-document"></div></div>
+        <div id="docprepJsonView" class="json-view" hidden>
+          <div class="json-toolbar"><span id="docprepJsonStatus" role="status"></span>
+            <button id="copyDocprepJson" type="button" disabled>Copy JSON</button></div>
+          <pre id="docprepJson" tabindex="0" aria-label="Complete DocPrep prepared document JSON"></pre>
+        </div>
+      </section>
+    </section>
+  </main>
+  <footer>No OCR, extraction, or correction occurs while reading saved results. JSON artifacts remain authoritative.</footer>
+  <script src="/assets/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+# E2-C hosted API providers: EXPERIMENTAL EVALUATION ONLY.
+#
+# The production system is self-hosted and air-gapped; nothing here is part of it.
+# This registry is separate from models_e2.toml and never changes local inference.
+#
+# A provider can send a request only when ALL of these hold:
+#   1. status = "implemented" (planned providers are listed but cannot run);
+#   2. the user created a local, unexpired enablement record for it (UI);
+#   3. a credential is supplied for this session (never stored);
+#   4. the user confirmed the exact bytes to be sent, for that one request.
+# Outbound traffic is restricted to `api_base_url`'s host and `result_hosts`.
+
+[[providers]]
+id = "baidu-aistudio-paddleocr-vl-1.6"
+label = "Baidu AI Studio - PaddleOCR-VL 1.6 (official hosted document parsing)"
+provider = "Baidu AI Studio"
+status = "implemented"
+protocol = "baidu_paddleocr_jobs_v2"
+api_base_url = "https://paddleocr.aistudio-app.com"
+api_path = "/api/v2/ocr/jobs"
+api_model_id = "PaddleOCR-VL-1.6"
+requested_model = "PaddleOCR-VL 1.6 official full-page document parsing (layout + VL)"
+local_counterpart = "paddleocr-vl-1.6-full-page"
+reported_revision = "not reported by the API"
+exact_revision_verified = false
+classification = "SAME MODEL FAMILY, REVISION UNVERIFIED"
+credential_env = "PADDLEOCR_ACCESS_TOKEN"
+credential_label = "AI Studio access token"
+# Hosts the job's pre-signed result URL may use. Unknown until the first real job:
+# empty means a result on any other host is refused (the run stops and reports it).
+result_hosts = []
+# Exact Baidu Object Storage (bcebos.com, Beijing region) hosts that the official
+# job-status API returned for real jobs of this endpoint on 2026-11-17 (Stage 1
+# batch stage1_20261117T223256294314Z_63be82). No wildcard: any other host is never
+# approved automatically and still needs a manual per-job approval. Used ONLY when
+# the user enables the automatic result-host policy (page 8); empty = manual only.
+auto_result_hosts = [
+  "paddleocr-store-1.bj.bcebos.com",
+  "paddleocr-store-2.bj.bcebos.com",
+  "paddleocr-store-4.bj.bcebos.com",
+  "paddleocr-store-6.bj.bcebos.com",
+  "paddleocr-store-7.bj.bcebos.com",
+  "paddleocr-store-8.bj.bcebos.com",
+  # Reported by a real full-PDF job (English Paddle run, page 4), added 2026-11-18.
+  "paddleocr-store.bj.bcebos.com",
+]
+# Vendor defaults: no option is overridden (empty optionalPayload).
+optional_payload = {}
+data_residency = "Baidu AI Studio (operated by Baidu, China); retention policy not reviewed"
+protocol_source = "paddleocr==3.7.0 paddleocr/_api_client (_http.py, _core.py, _poller.py), read statically"
+[providers.pricing]
+basis = "per_page"
+estimated_usd_per_page = 0.0
+source = "published free daily quota; paid tier price not published (cost reported by provider: none)"
+[providers.limits]
+max_pages_per_request = 1
+max_requests_per_run = 1
+request_timeout_s = 60
+poll_timeout_s = 600
+poll_initial_interval_s = 3.0
+poll_max_interval_s = 15.0
+max_response_bytes = 20000000
+max_cost_usd_per_run = 0.0
+# Internal limits of this project (NOT Baidu quotas; the free daily quota is not published as a number,
+# so provider_documented_daily_pages is not set). Budget per enablement period, per UTC day, and a
+# cumulative cap over the whole history so re-enabling cannot raise the budget without limit.
+max_pages_per_enablement = 500
+max_pages_per_day_ceiling = 100
+max_pages_cumulative = 2000
+default_enablement_days = 7
+
+[[providers]]
+id = "featherless-qwen3-vl-4b-instruct"
+label = "Featherless - Qwen3-VL-4B-Instruct (BF16 per provider page)"
+provider = "Featherless"
+status = "implemented"
+protocol = "openai_chat_completions_v1"
+api_base_url = "https://api.featherless.ai"
+api_path = "/v1/chat/completions"
+api_model_id = "Qwen/Qwen3-VL-4B-Instruct"
+requested_model = "Qwen/Qwen3-VL-4B-Instruct (provider page: BF16, 32k context; server-side image processing not reported)"
+local_counterpart = "qwen3-vl-4b"
+reported_revision = "not reported by the API"
+exact_revision_verified = false
+classification = "SAME MODEL FAMILY, REVISION UNVERIFIED"
+credential_env = "FEATHERLESS_API_KEY"
+credential_label = "Featherless API key"
+result_hosts = []
+optional_payload = {}
+# Identical to the local qwen3-vl-4b registry entry, so hosted and local runs compare.
+prompt_id = "vlm_transcribe_v1"
+data_residency = "Featherless (FAQ: prompts and completions are not logged); region and retention policy not reviewed"
+protocol_source = "featherless.ai/docs (API overview, Vision, Plans, FAQ), read 2026-11-17"
+[providers.generation]
+temperature = 0.0
+max_tokens = 2048
+[providers.pricing]
+basis = "per_token"
+# Conservative preflight bound for a 32k-context request at these rates. Actual
+# successful-request cost is recorded from response usage.cost when the API supplies it.
+estimated_usd_per_page = 0.02
+usd_per_million_input_tokens = 0.4
+usd_per_million_output_tokens = 0.8
+price_verified = true
+source = "Featherless model page lists Input $0.4 / Output $0.8; official Developer pricing docs state all model-page prices are USD per 1M tokens (verified 2026-11-17)"
+[providers.limits]
+max_pages_per_request = 1
+max_requests_per_run = 1
+request_timeout_s = 180
+poll_timeout_s = 0
+poll_initial_interval_s = 0.0
+poll_max_interval_s = 0.0
+max_response_bytes = 5000000
+max_cost_usd_per_run = 0.02
+# Internal limits of this project (not provider quotas).
+max_pages_per_enablement = 100
+max_pages_per_day_ceiling = 100
+max_pages_cumulative = 500
+default_enablement_days = 7
+
+[[providers]]
+id = "oxen-qwen3-vl-4b-instruct"
+label = "Oxen.ai - Qwen3-VL-4B-Instruct (compute-time billing)"
+provider = "Oxen.ai"
+status = "implemented"
+protocol = "openai_chat_completions_v1"
+api_base_url = "https://hub.oxen.ai"
+api_path = "/api/ai/chat/completions"
+api_model_id = "qwen3-vl-4b-instruct"
+requested_model = "qwen3-vl-4b-instruct (Oxen model page: source model Qwen/Qwen3-VL-4B-Instruct; quantization 'specific to the inference provider', listed as not quantized; no revision stated)"
+local_counterpart = "qwen3-vl-4b"
+reported_revision = "not reported by the API"
+exact_revision_verified = false
+classification = "SAME MODEL FAMILY, REVISION UNVERIFIED"
+credential_env = "OXEN_API_KEY"
+credential_label = "Oxen API key"
+result_hosts = []
+optional_payload = {}
+# Same static prompt and generation options as the local qwen3-vl-4b entry and
+# Featherless, so the hosted runs are comparable.
+prompt_id = "vlm_transcribe_v1"
+# Server-sent events ("stream": true, documented in the Oxen chat completions
+# reference). Two live non-streaming requests got no response headers within 120 s
+# after a complete upload; streaming shows whether the model starts producing
+# tokens. The budget bounds headers plus body together; raised from 120 s to 300 s
+# on 2026-11-18 (repeated timeouts), with the billing bound kept at timeout + 60 s.
+stream = true
+data_residency = "Oxen.ai (hub.oxen.ai); underlying inference provider, region and retention policy not documented or reviewed"
+protocol_source = "docs.oxen.ai inference-api reference (chat_completions, overview, vision_language_models, models/qwen3-vl-4b-instruct), read 2026-11-17"
+[providers.generation]
+temperature = 0.0
+max_tokens = 4096
+[providers.pricing]
+basis = "per_compute_second"
+usd_per_compute_second = 0.0014
+# Conservative preflight bound: billing may continue on the provider after a local
+# timeout (not documented), so the bound allows 60 s beyond request_timeout_s.
+max_billable_seconds_per_request = 360
+estimated_usd_per_page = 0.504
+price_verified = false
+source = "Rate USD 0.0014 per compute second supplied by the user; Oxen docs confirm per-second compute-time billing for Qwen models but the figure was not found in public docs. Each response's usage.cost (decimal string, usage.currency) is the reconciled actual charge."
+[providers.limits]
+max_pages_per_request = 1
+max_requests_per_run = 1
+request_timeout_s = 300
+poll_timeout_s = 0
+poll_initial_interval_s = 0.0
+poll_max_interval_s = 0.0
+max_response_bytes = 5000000
+max_cost_usd_per_run = 0.504
+# Internal limits of this project (not provider quotas).
+max_pages_per_enablement = 100
+max_pages_per_day_ceiling = 100
+max_pages_cumulative = 500
+default_enablement_days = 7
+
+[[providers]]
+id = "dedicated-qari-ocr-0.4.0"
+label = "Dedicated pinned-revision endpoint - Qari-OCR 0.4.0 (adapter + base)"
+provider = "Self-deployed dedicated endpoint"
+status = "planned"
+protocol = "dedicated_pinned_endpoint"
+api_base_url = "https://dedicated-endpoint.invalid"
+api_path = "/"
+api_model_id = "NAMAA-Space/Qari-OCR-0.4.0-VL-4B-Instruct@aa65b4a46336c6cc608e7da5a015f8e71472a68b + Qwen/Qwen3-VL-4B-Instruct@ebb281ec70b05090aa6165b016eac8ec08e71b17"
+requested_model = "Qari-OCR 0.4.0 LoRA on its pinned Qwen3-VL-4B base"
+local_counterpart = "qari-ocr-0.4.0"
+reported_revision = "to be recorded from the deployed endpoint"
+exact_revision_verified = false
+classification = "NOT VERIFIED"
+credential_env = "QARI_ENDPOINT_TOKEN"
+credential_label = "endpoint token"
+result_hosts = []
+optional_payload = {}
+data_residency = "depends on the chosen endpoint"
+protocol_source = "not implemented"
+[providers.pricing]
+basis = "per_instance_hour"
+estimated_usd_per_page = -1.0
+source = "not verified"
+[providers.limits]
+max_pages_per_request = 1
+max_requests_per_run = 1
+request_timeout_s = 120
+poll_timeout_s = 0
+poll_initial_interval_s = 0.0
+poll_max_interval_s = 0.0
+max_response_bytes = 5000000
+max_cost_usd_per_run = 0.0

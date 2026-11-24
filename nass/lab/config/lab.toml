@@ -1,0 +1,11 @@
+tmp_dir = ""
+workspace_ttl_hours = 24
+max_file_mb = 50
+max_pages = 200
+max_documents = 30
+viewer_dpi = 110
+adapter_timeout_s = 120
+e2_candidate_cer = 0.10
+e2_render_dpi = 200
+e2_load_timeout_s = 1800
+e2_page_timeout_s = 1800

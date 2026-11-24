@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenticdoc.local/schemas/prepared-document-1.1.0.json",
+  "title": "DocPrep Unified Prepared Document",
+  "description": "Self-contained, verbatim integration of saved Nass, Structure, Relationships, and Quality artifacts. Null means the upstream evidence did not provide a supported value.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "kind", "document_id", "source_run_id", "source_document", "language",
+    "page_count", "metadata", "pages", "sections", "elements", "derived_spans", "lists", "visuals",
+    "logical_tables", "nodes", "relationships", "evidence_audit", "quality", "indexes", "provenance"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.1.0"},
+    "kind": {"const": "docprep_prepared_document"},
+    "document_id": {"type": "string", "minLength": 1},
+    "source_run_id": {"type": "string", "minLength": 1},
+    "source_document": {"type": "object"},
+    "language": {"type": ["string", "null"]},
+    "page_count": {"type": "integer", "minimum": 1},
+    "metadata": {"$ref": "#/$defs/metadata"},
+    "pages": {"type": "array", "items": {"type": "object"}},
+    "sections": {"type": "array", "items": {"$ref": "#/$defs/section"}},
+    "elements": {"type": "array", "items": {"$ref": "#/$defs/element"}},
+    "derived_spans": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["structure", "relationships"],
+      "properties": {
+        "structure": {"type": "array", "items": {"$ref": "#/$defs/derivedSpan"}},
+        "relationships": {"type": "array", "items": {"$ref": "#/$defs/relationshipSpan"}}
+      }
+    },
+    "lists": {"type": "array", "items": {"$ref": "#/$defs/list"}},
+    "visuals": {"type": "array", "items": {"$ref": "#/$defs/visual"}},
+    "logical_tables": {"type": "array", "items": {"$ref": "#/$defs/logicalTable"}},
+    "nodes": {"type": "array", "items": {"$ref": "#/$defs/node"}},
+    "relationships": {"type": "array", "items": {"$ref": "#/$defs/relationship"}},
+    "evidence_audit": {"type": "array", "items": {"type": "object"}},
+    "quality": {"$ref": "#/$defs/quality"},
+    "indexes": {"$ref": "#/$defs/indexes"},
+    "provenance": {"$ref": "#/$defs/provenance"}
+  },
+  "$defs": {
+    "nullableString": {"type": ["string", "null"]},
+    "stringArray": {"type": "array", "items": {"type": "string"}},
+    "bbox": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}}
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "title_source_section_id", "author", "author_status", "source_filename",
+                   "source_run_id", "language", "language_status", "page_count", "annotations"],
+      "properties": {
+        "title": {"$ref": "#/$defs/nullableString"},
+        "title_source_section_id": {"$ref": "#/$defs/nullableString"},
+        "author": {"$ref": "#/$defs/nullableString"},
+        "author_status": {"type": "string"},
+        "source_filename": {"$ref": "#/$defs/nullableString"},
+        "source_run_id": {"type": "string"},
+        "language": {"$ref": "#/$defs/nullableString"},
+        "language_status": {"type": "string"},
+        "page_count": {"type": "integer", "minimum": 1},
+        "annotations": {"type": "array", "items": {"type": "object"}}
+      }
+    },
+    "section": {
+      "type": "object",
+      "required": ["section_id", "title", "level", "parent", "children", "heading_element_ids",
+                   "page_start", "page_end", "confidence", "element_ids_in_reading_order",
+                   "unit_ids_in_reading_order", "assignment_confidences", "quality_finding_ids"],
+      "properties": {
+        "section_id": {"type": "string"},
+        "title": {"type": "string"},
+        "level": {"type": "integer", "minimum": 0},
+        "parent": {"$ref": "#/$defs/nullableString"},
+        "children": {"$ref": "#/$defs/stringArray"},
+        "heading_element_ids": {"$ref": "#/$defs/stringArray"},
+        "page_start": {"type": "integer", "minimum": 1},
+        "page_end": {"type": "integer", "minimum": 1},
+        "confidence": {"type": "object"},
+        "element_ids_in_reading_order": {"$ref": "#/$defs/stringArray"},
+        "unit_ids_in_reading_order": {"$ref": "#/$defs/stringArray"},
+        "assignment_confidences": {"type": "object", "additionalProperties": {"type": ["string", "null"]}},
+        "quality_finding_ids": {"$ref": "#/$defs/stringArray"}
+      },
+      "additionalProperties": true
+    },
+    "element": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element_id", "original_type", "text", "page", "reading_order", "document_order",
+                   "bbox_pt", "geometry_reliability", "validation_state", "source_extraction",
+                   "structure_assignments", "section_ids", "roles", "relationship_ids",
+                   "quality_finding_ids", "quality_inventory", "rag_flags", "evidence_reliability",
+                   "evidence_reliability_reasons"],
+      "properties": {
+        "element_id": {"type": "string"},
+        "original_type": {"type": "string"},
+        "text": {"type": ["string", "null"]},
+        "page": {"type": "integer", "minimum": 1},
+        "reading_order": {"type": ["integer", "null"]},
+        "document_order": {"type": "integer", "minimum": 0},
+        "bbox_pt": {"$ref": "#/$defs/bbox"},
+        "geometry_reliability": {"enum": ["precise", "approximate", "page_level_only", "unavailable"]},
+        "validation_state": {"type": ["string", "null"]},
+        "source_extraction": {"type": "object"},
+        "structure_assignments": {"type": "array", "items": {"type": "object"}},
+        "section_ids": {"$ref": "#/$defs/stringArray"},
+        "roles": {"$ref": "#/$defs/stringArray"},
+        "relationship_ids": {"$ref": "#/$defs/stringArray"},
+        "quality_finding_ids": {"$ref": "#/$defs/stringArray"},
+        "quality_inventory": {"type": ["object", "null"]},
+        "rag_flags": {"$ref": "#/$defs/stringArray"},
+        "evidence_reliability": {"enum": ["unassessed", "high", "medium", "low"]},
+        "evidence_reliability_reasons": {"$ref": "#/$defs/stringArray"}
+      }
+    },
+    "derivedSpan": {
+      "type": "object",
+      "required": ["span_id", "element_id", "start", "end", "text", "uncertain"],
+      "properties": {
+        "span_id": {"type": "string"}, "element_id": {"type": "string"},
+        "start": {"type": "integer", "minimum": 0}, "end": {"type": "integer", "minimum": 0},
+        "text": {"type": "string"}, "uncertain": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "relationshipSpan": {
+      "type": "object",
+      "required": ["span_id", "parent_element_id", "start", "end", "text"],
+      "properties": {
+        "span_id": {"type": "string"}, "parent_element_id": {"type": "string"},
+        "start": {"type": "integer", "minimum": 0}, "end": {"type": "integer", "minimum": 0},
+        "text": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "list": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["list_id", "structure", "relationship_view", "nested_items", "item_ids",
+                   "relationship_ids", "quality_finding_ids"],
+      "properties": {
+        "list_id": {"type": "string"}, "structure": {"type": ["object", "null"]},
+        "relationship_view": {"type": ["object", "null"]},
+        "nested_items": {"type": "array", "items": {"type": "object"}},
+        "item_ids": {"$ref": "#/$defs/stringArray"}, "relationship_ids": {"$ref": "#/$defs/stringArray"},
+        "quality_finding_ids": {"$ref": "#/$defs/stringArray"}
+      }
+    },
+    "visual": {
+      "type": "object",
+      "required": ["visual_id", "visual_type", "page", "validation_state", "original_content",
+                   "relationship_ids", "quality_finding_ids", "layout_provenance", "rag_flags",
+                   "evidence_reliability", "evidence_reliability_reasons"],
+      "properties": {
+        "visual_id": {"type": "string"}, "visual_type": {"enum": ["figure", "table", "known_missing"]},
+        "page": {"type": ["integer", "null"], "minimum": 1},
+        "validation_state": {"$ref": "#/$defs/nullableString"},
+        "original_content": {"$ref": "#/$defs/nullableString"},
+        "relationship_ids": {"$ref": "#/$defs/stringArray"},
+        "quality_finding_ids": {"$ref": "#/$defs/stringArray"},
+        "layout_provenance": {"type": ["object", "null"]},
+        "rag_flags": {"$ref": "#/$defs/stringArray"},
+        "evidence_reliability": {"enum": ["unassessed", "high", "medium", "low"]},
+        "evidence_reliability_reasons": {"$ref": "#/$defs/stringArray"}
+      },
+      "additionalProperties": true
+    },
+    "logicalTable": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logical_table_id", "source_part_ids", "pages", "repeated_header_between_parts",
+                   "pair_evidence", "relationship_ids", "caption_relationship_ids", "quality_finding_ids",
+                   "provenance"],
+      "properties": {
+        "logical_table_id": {"type": "string"}, "source_part_ids": {"$ref": "#/$defs/stringArray"},
+        "pages": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+        "repeated_header_between_parts": {"type": "array", "items": {"type": "boolean"}},
+        "pair_evidence": {"type": "array", "items": {"type": "object"}},
+        "relationship_ids": {"$ref": "#/$defs/stringArray"},
+        "caption_relationship_ids": {"$ref": "#/$defs/stringArray"},
+        "quality_finding_ids": {"$ref": "#/$defs/stringArray"}, "provenance": {"type": "object"}
+      }
+    },
+    "node": {
+      "type": "object",
+      "required": ["node_id", "node_type", "page", "text", "source_id", "start", "end", "provenance"],
+      "properties": {"node_id": {"type": "string"}, "node_type": {"type": "string"}},
+      "additionalProperties": true
+    },
+    "relationship": {
+      "type": "object",
+      "required": ["rel_id", "type", "source_id", "target_id", "evidence", "confidence", "method",
+                   "conflicts", "review_recommended", "limitations"],
+      "properties": {
+        "rel_id": {"type": "string"},
+        "type": {"enum": ["caption_of", "title_inside_visual", "titled_by_section", "leaked_text", "describes",
+                           "table_continuation", "composite_part", "aside_of", "list_nesting", "merged_list_items",
+                           "introduces_list", "document_metadata", "known_missing", "co_located_in_section"]},
+        "source_id": {"type": "string"}, "target_id": {"type": "string"}, "evidence": {"type": "object"},
+        "confidence": {"enum": ["high", "medium", "low"]}, "method": {"type": "string"},
+        "conflicts": {"type": "array"}, "review_recommended": {"type": "boolean"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "qualityFinding": {
+      "type": "object",
+      "required": ["finding_id", "category", "subtype", "severity", "confidence", "source_ids",
+                   "page_numbers", "evidence", "explanation", "suggested_review_action", "status"],
+      "properties": {
+        "finding_id": {"type": "string"}, "category": {"type": "string"}, "subtype": {"type": "string"},
+        "severity": {"enum": ["critical", "high", "medium", "low", "info"]},
+        "confidence": {"enum": ["high", "medium", "low"]}, "source_ids": {"$ref": "#/$defs/stringArray"},
+        "page_numbers": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+        "evidence": {"type": "object"}, "explanation": {"type": "string"},
+        "suggested_review_action": {"type": "string"},
+        "status": {"enum": ["open", "needs_review", "unverified", "not_applicable"]}
+      },
+      "additionalProperties": true
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["findings", "inventory", "summary", "validation"],
+      "properties": {
+        "findings": {"type": "array", "items": {"$ref": "#/$defs/qualityFinding"}},
+        "inventory": {"type": "array", "items": {"type": "object"}},
+        "summary": {"type": "object"}, "validation": {"type": "object"}
+      }
+    },
+    "indexes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element_by_id", "section_by_id", "list_by_id", "logical_table_by_id", "visual_by_id",
+                   "known_missing_visuals",
+                   "elements_by_section", "visuals_by_describing_source", "quality_findings_by_element",
+                   "relationships_by_node"],
+      "properties": {
+        "element_by_id": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "section_by_id": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "list_by_id": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "logical_table_by_id": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "visual_by_id": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "known_missing_visuals": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+        "elements_by_section": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "integer"}}},
+        "visuals_by_describing_source": {"type": "object", "additionalProperties": {"$ref": "#/$defs/stringArray"}},
+        "quality_findings_by_element": {"type": "object", "additionalProperties": {"$ref": "#/$defs/stringArray"}},
+        "relationships_by_node": {"type": "object", "additionalProperties": {"$ref": "#/$defs/stringArray"}}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component", "docprep_version", "output_schema_version", "processing_configuration",
+                   "processing_configuration_sha256", "input_directories", "input_sha256", "upstream_manifests",
+                   "content_policy"],
+      "properties": {
+        "component": {"const": "Unified Prepared Document Builder"}, "docprep_version": {"type": "string"},
+        "output_schema_version": {"const": "1.1.0"}, "processing_configuration": {"type": "object"},
+        "processing_configuration_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "input_directories": {"type": "object"}, "input_sha256": {"type": "object"},
+        "upstream_manifests": {"type": "object"}, "content_policy": {"type": "string"}
+      }
+    }
+  }
+}

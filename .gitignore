@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------- secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+credentials*.json
+secrets*.toml
+.streamlit/secrets.toml
+**/.streamlit/secrets.toml
+*.token
+.netrc
+.pypirc
+
+# ---------------------------------------------------------------- Python environments and caches
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# ---------------------------------------------------------------- runtime data and outputs (never commit)
+# Studio job folders: uploaded PDFs, Nass runs (crops, page images, raw OCR), DocPrep outputs
+studio/data/
+# Nass / DocPrep result roots if they are pointed inside the repository
+/results/
+/outputs/
+/data/
+nass/results/
+nass/tmp/
+nass/lab_exports/
+# Local machine registries (examples are committed instead)
+docprep/config/inspector_documents.json
+studio/config/studio.local.json
+# Private evaluation reference built from a user-owned PDF (see docs/TESTING.md)
+docprep/docprep/eval/references/traffic_report_review_v1.json
+
+# ---------------------------------------------------------------- documents and images not part of fixtures
+*.pdf
+!nass/lab/fixtures/generated/**/*.pdf
+!nass/tests/lab/data/*.pdf
+
+# ---------------------------------------------------------------- models, caches, large binaries
+*.pdiparams
+*.pdmodel
+*.safetensors
+*.bin
+*.onnx
+*.gguf
+*.pt
+*.pth
+hf/
+.cache/
+huggingface/
+models/
+*_infer/
+
+# ---------------------------------------------------------------- logs, temporary files, backups
+*.log
+*.tmp
+*.bak
+*.orig
+*~
+tmp/
+temp/
+backup*/
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

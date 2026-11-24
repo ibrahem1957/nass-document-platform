@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "kind": "docprep_inspector_documents",
+  "documents": [
+    {
+      "id": "example",
+      "label": "Example document",
+      "prepared_path": "C:/path/to/prepared/run_<id>__<stamp>/prepared_document.json",
+      "nass_dir": "C:/path/to/automatic_extraction/run_<id>"
+    }
+  ]
+}

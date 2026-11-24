@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task": "text",
+  "source": "fixture",
+  "fixture": "ar_single_column",
+  "producer": "Chromium",
+  "producer_version": "msedge.exe",
+  "font": "Amiri Regular",
+  "pages": [
+    {
+      "page": 1,
+      "text": "مختبر استخراج المستندات\nهذه فقرة عربية واضحة لاختبار ترتيب النص.",
+      "status": "verified",
+      "tags": [
+        "headings"
+      ]
+    }
+  ]
+}

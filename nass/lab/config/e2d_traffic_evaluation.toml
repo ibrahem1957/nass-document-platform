@@ -1,0 +1,40 @@
+# E2-D: two-stage hosted API evaluation of the traffic accident report pair.
+#
+# Planning only. Nothing here sends anything: every request still needs the user's
+# exact-hash document authorization, provider enablement, a session credential and
+# a separate write-once approval of the exact stage plan (page images by SHA-256,
+# destinations and spending limits). Stage 2 never starts automatically.
+
+id = "e2d-traffic-accident-reports"
+title = "E2-D traffic accident reports: PaddleOCR-VL 1.6 (Baidu) vs Qwen3-VL-4B-Instruct (hosted)"
+# Default selection for a new plan: Baidu + Oxen. The user may choose any of the
+# options per plan; credentials are entered per provider and never shared.
+providers = ["baidu-aistudio-paddleocr-vl-1.6", "oxen-qwen3-vl-4b-instruct"]
+provider_options = ["baidu-aistudio-paddleocr-vl-1.6", "oxen-qwen3-vl-4b-instruct", "featherless-qwen3-vl-4b-instruct"]
+
+# Bounded execution. Each item also has the worker deadline of its provider.
+max_concurrency = 2
+max_concurrency_per_provider = 1
+batch_deadline_minutes = 90
+# Consecutive ambiguous submissions (timeouts before a Job ID / response) after which
+# this execution stops submitting to that provider. Ambiguous items are never retried.
+ambiguous_stop_threshold = 2
+
+# Typical-cost ASSUMPTION for the estimate column only (not a measurement); the
+# enforced budget uses each provider's maximum per-page cost instead.
+typical_prompt_tokens = 1500
+typical_completion_tokens = 1200
+# Compute-time billing (Oxen): assumed seconds per page for the estimate column only.
+typical_compute_seconds = 20
+
+[[documents]]
+registry_id = "traffic-accident-report-ar-v1"
+language = "Arabic"
+stage1_pages = [1, 5, 16]
+stage1_page_roles = { 1 = "prose (title/introduction)", 5 = "prose + chart images (indicators)", 16 = "table (vector-drawn)" }
+
+[[documents]]
+registry_id = "traffic-accident-report-en-v1"
+language = "English"
+stage1_pages = [1, 6, 12]
+stage1_page_roles = { 1 = "prose (title/introduction)", 6 = "prose + indicator images", 12 = "table (vector-drawn)" }

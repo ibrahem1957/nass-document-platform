@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "task": "text",
+  "source": "fixture",
+  "fixture": "ar_two_column",
+  "producer": "PyMuPDF",
+  "producer_version": "1.26.5:",
+  "font": "Amiri Regular",
+  "pages": [
+    {
+      "page": 1,
+      "text": "العمود الأيمن\nالنص الأول في الصفحة.\n\nالعمود الأيسر\nالنص الثاني في الصفحة.",
+      "status": "verified",
+      "tags": [
+        "multi_column",
+        "headings"
+      ]
+    }
+  ]
+}

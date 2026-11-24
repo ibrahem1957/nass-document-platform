@@ -1,0 +1,7 @@
+# Keep the exact bytes of the source files on every platform (tests hash lock files and fixtures).
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.pdf binary
+*.png binary
+*.ttf binary
+*.jpg binary

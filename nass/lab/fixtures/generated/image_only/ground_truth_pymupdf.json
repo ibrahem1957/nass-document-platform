@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "task": "text",
+  "source": "fixture",
+  "fixture": "image_only",
+  "producer": "PyMuPDF",
+  "producer_version": "1.26.5:",
+  "font": "Amiri Regular",
+  "pages": [
+    {
+      "page": 1,
+      "text": "صورة نصية بلا طبقة نص",
+      "status": "verified",
+      "tags": [
+        "images_present"
+      ]
+    }
+  ]
+}

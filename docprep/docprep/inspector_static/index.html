@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DocPrep Document Inspector</title>
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Local · read-only</p>
+      <h1>DocPrep Document Inspector</h1>
+    </div>
+    <label class="document-picker">Document
+      <select id="documentSelect" aria-label="Select prepared document"></select>
+    </label>
+  </header>
+
+  <div id="status" class="status" role="status" aria-live="polite">Loading validated documents…</div>
+  <section id="overview" class="overview" aria-label="Document overview"></section>
+
+  <main class="app-shell">
+    <aside class="sidebar" aria-label="Document navigation">
+      <div class="panel-heading">
+        <h2>Sections</h2>
+        <button id="showAllElements" class="text-button" type="button">Show all</button>
+      </div>
+      <div id="sectionTree" class="section-tree"></div>
+    </aside>
+
+    <section class="workspace">
+      <div class="pdf-pane panel">
+        <div class="panel-heading pdf-controls">
+          <h2>Original PDF</h2>
+          <div class="page-controls">
+            <button id="previousPage" type="button" aria-label="Previous page">←</button>
+            <label>Page <input id="pageInput" type="number" min="1" value="1"></label>
+            <span id="pageTotal"></span>
+            <button id="nextPage" type="button" aria-label="Next page">→</button>
+            <label>Zoom
+              <select id="zoomSelect">
+                <option value="page-width">Fit width</option>
+                <option value="page-fit">Fit page</option>
+                <option value="100">100%</option>
+                <option value="125">125%</option>
+                <option value="150">150%</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="geometryNotice" class="geometry-notice"></div>
+        <iframe id="pdfFrame" title="Original PDF page" class="pdf-frame"></iframe>
+        <div id="pdfFallback" class="empty-state" hidden></div>
+      </div>
+
+      <div class="content-pane panel">
+        <nav id="tabs" class="tabs" aria-label="Inspector views">
+          <button type="button" data-tab="elements" class="active">Elements</button>
+          <button type="button" data-tab="relationships">Relationships</button>
+          <button type="button" data-tab="quality">Quality</button>
+          <button type="button" data-tab="visuals">Figures &amp; tables</button>
+          <button type="button" data-tab="json">JSON</button>
+        </nav>
+
+        <section id="searchPanel" class="search-panel">
+          <label>Search
+            <input id="searchInput" type="search" placeholder="Element ID, original text, page or section">
+          </label>
+          <label>In
+            <select id="searchMode">
+              <option value="all">Everything</option>
+              <option value="id">Element ID</option>
+              <option value="text">Original text</option>
+              <option value="page">Page</option>
+              <option value="section">Section</option>
+            </select>
+          </label>
+          <button id="clearSearch" type="button">Clear</button>
+        </section>
+
+        <section id="qualityFilters" class="filter-bar" hidden>
+          <label>Severity
+            <select id="severityFilter"><option value="all">All</option></select>
+          </label>
+          <label class="check-label"><input id="reviewFilter" type="checkbox"> Needs review only</label>
+        </section>
+
+        <div id="view" class="view" tabindex="-1"></div>
+      </div>
+    </section>
+  </main>
+
+  <aside id="detailDrawer" class="detail-drawer" aria-label="Selected item details" hidden>
+    <div class="panel-heading">
+      <h2 id="detailTitle">Details</h2>
+      <button id="closeDetails" type="button" aria-label="Close details">×</button>
+    </div>
+    <div id="detailBody"></div>
+  </aside>
+
+  <noscript>This inspector requires local JavaScript. No content is sent outside this computer.</noscript>
+  <script src="/assets/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "task": "text",
+  "source": "fixture",
+  "fixture": "multi_page",
+  "producer": "PyMuPDF",
+  "producer_version": "1.26.5:",
+  "font": "Amiri Regular",
+  "pages": [
+    {
+      "page": 1,
+      "text": "الفصل 1\nهذا محتوى اصطناعي للصفحة 1.",
+      "status": "verified",
+      "tags": [
+        "headings"
+      ]
+    },
+    {
+      "page": 2,
+      "text": "الفصل 2\nهذا محتوى اصطناعي للصفحة 2.",
+      "status": "verified",
+      "tags": [
+        "headings"
+      ]
+    },
+    {
+      "page": 3,
+      "text": "الفصل 3\nهذا محتوى اصطناعي للصفحة 3.",
+      "status": "verified",
+      "tags": [
+        "headings"
+      ]
+    },
+    {
+      "page": 4,
+      "text": "الفصل 4\nهذا محتوى اصطناعي للصفحة 4.",
+      "status": "verified",
+      "tags": [
+        "headings"
+      ]
+    },
+    {
+      "page": 5,
+      "text": "الفصل 5\nهذا محتوى اصطناعي للصفحة 5.",
+      "status": "verified",
+      "tags": [
+        "headings"
+      ]
+    }
+  ]
+}

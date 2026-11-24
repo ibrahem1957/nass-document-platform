@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "task": "text",
+  "source": "fixture",
+  "fixture": "header_footer",
+  "producer": "Chromium",
+  "producer_version": "msedge.exe",
+  "font": "Amiri Regular",
+  "pages": [
+    {
+      "page": 1,
+      "text": "تقرير تجريبي\n\nمحتوى الصفحة رقم ١\n\n— ١ —",
+      "status": "verified",
+      "tags": [
+        "header_footer",
+        "arabic_indic_digits"
+      ]
+    },
+    {
+      "page": 2,
+      "text": "تقرير تجريبي\n\nمحتوى الصفحة رقم ٢\n\n— ٢ —",
+      "status": "verified",
+      "tags": [
+        "header_footer",
+        "arabic_indic_digits"
+      ]
+    },
+    {
+      "page": 3,
+      "text": "تقرير تجريبي\n\nمحتوى الصفحة رقم ٣\n\n— ٣ —",
+      "status": "verified",
+      "tags": [
+        "header_footer",
+        "arabic_indic_digits"
+      ]
+    }
+  ]
+}
